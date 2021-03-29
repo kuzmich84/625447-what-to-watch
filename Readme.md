@@ -1,6 +1,6 @@
 # Личный проект «Что посмотреть» [![Build status][travis-image]][travis-url]
 
-* Студент: [Алексей Наумов](https://up.htmlacademy.ru/react/5/user/57563).
+* Студент: [Дмитрий Кучуков](https://up.htmlacademy.ru/react/5/user/625447).
 * Наставник: `Неизвестно`.
 
 ---
