@@ -10,7 +10,11 @@ const App = ({promoFilm}) => {
 };
 
 App.propTypes = {
-  promoFilm: PropTypes.object.isRequired
+  promoFilm: PropTypes.shape({
+    title: PropTypes.string,
+    genre: PropTypes.string,
+    date: PropTypes.number,
+  })
 };
 
 
