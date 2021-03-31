@@ -1,11 +1,48 @@
 import React from 'react';
 import Main from './main';
 import PropTypes from 'prop-types';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import Film from "./film";
+import SignIn from "./sign-in";
+import MyList from "./my-list";
+import Player from "./player";
+import AddReview from "./add-review";
 
 const App = ({promoFilm}) => {
 
   return (
-    <Main title={promoFilm.title} genre={promoFilm.genre} date={promoFilm.date} />
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/login" component={SignIn}/>
+        <Route exact path="/mylist" component={MyList}/>
+        <Route exact path="/" render={() => {
+          return (
+            <Main title={promoFilm.title} genre={promoFilm.genre} date={promoFilm.date}/>
+          );
+        }}
+        />
+        <Route exact path="/films/:id" render={() => {
+          return (
+            <Film/>
+          );
+        }}/>
+        <Route exact path="/player/:id" render={() => {
+          return (
+            <Player/>
+          );
+        }}/>
+        <Route exact path="/films/:id/review" render={() => {
+          return (
+            <AddReview/>
+          );
+        }}/>
+
+        <Route>
+          <h1>No Found</h1>
+        </Route>
+      </Switch>
+    </BrowserRouter>
+
   );
 };
 
