@@ -1,12 +1,12 @@
 import React from 'react';
-import Main from './main';
+import Main from '../main/main';
 import PropTypes from 'prop-types';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import Film from "./film";
-import SignIn from "./sign-in";
-import MyList from "./my-list";
-import Player from "./player";
-import AddReview from "./add-review";
+import Film from "../film/film";
+import SignIn from "../sign-in/sign-in";
+import MyList from "../my-list/my-list";
+import Player from "../player/player";
+import AddReview from "../add-review/add-review";
 
 const App = ({promoFilm}) => {
 
