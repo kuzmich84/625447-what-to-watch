@@ -8,7 +8,7 @@ import MyList from "../my-list/my-list";
 import Player from "../player/player";
 import AddReview from "../add-review/add-review";
 
-const App = ({promoFilm}) => {
+const App = ({promoFilm, films, reviews}) => {
 
   return (
     <BrowserRouter>
@@ -17,13 +17,14 @@ const App = ({promoFilm}) => {
         <Route exact path="/mylist" component={MyList}/>
         <Route exact path="/" render={() => {
           return (
-            <Main title={promoFilm.title} genre={promoFilm.genre} date={promoFilm.date}/>
+            <Main title={promoFilm.title} genre={promoFilm.genre} date={promoFilm.date} films={films}/>
           );
         }}
         />
-        <Route exact path="/films/:id" render={() => {
+        <Route exact path="/films/:id" render={({match}) => {
+          const {id} = match.params;
           return (
-            <Film/>
+            <Film film={films[id - 1]} reviews={reviews}/>
           );
         }}/>
         <Route exact path="/player/:id" render={() => {
@@ -31,9 +32,10 @@ const App = ({promoFilm}) => {
             <Player/>
           );
         }}/>
-        <Route exact path="/films/:id/review" render={() => {
+        <Route exact path="/films/:id/review" render={({match}) => {
+          const {id} = match.params;
           return (
-            <AddReview/>
+            <AddReview film={films[id - 1]} />
           );
         }}/>
 
@@ -51,7 +53,18 @@ App.propTypes = {
     title: PropTypes.string,
     genre: PropTypes.string,
     date: PropTypes.number,
-  })
+  }),
+  films: PropTypes.array.isRequired,
+  reviews: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    user: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired
+    }),
+    rating: PropTypes.number.isRequired,
+    comment: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired
+  }))
 };
 
 
