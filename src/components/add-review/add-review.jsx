@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {Fragment, PureComponent} from 'react';
 import PropTypes from "prop-types";
 
 class AddReview extends PureComponent {
@@ -7,18 +7,29 @@ class AddReview extends PureComponent {
     this.state = {
       rating: 0,
       review: ``,
+      isDisabled: true,
     };
     this._handleChangeReview = this._handleChangeReview.bind(this);
     this._handleChangeRating = this._handleChangeRating.bind(this);
+    this._validation = this._validation.bind(this);
   }
 
   _handleChangeReview(evt) {
-    this.setState({review: evt.target.value});
+    this.setState({review: evt.target.value}, this._validation);
   }
 
   _handleChangeRating(evt) {
-    this.setState({rating: +evt.target.value});
+    this.setState({rating: +evt.target.value}, this._validation);
   }
+
+  _validation() {
+    if (this.state.review.length >= 50 && this.state.review.length < 400 && this.state.rating !== 0) {
+      this.setState({isDisabled: false});
+    } else {
+      this.setState({isDisabled: true});
+    }
+  }
+
 
   render() {
     const {film} = this.props;
@@ -69,20 +80,17 @@ class AddReview extends PureComponent {
           <form action="#" className="add-review__form">
             <div className="rating">
               <div className="rating__stars">
-                <input onChange={this._handleChangeRating} className="rating__input" id="star-1" type="radio" name="rating" value="1"/>
-                <label className="rating__label" htmlFor="star-1">Rating 1</label>
+                {
+                  Array.from(`12345`).map((item) => {
+                    return (
+                      <Fragment key={item}>
+                        <input onChange={this._handleChangeRating} className="rating__input" id={`star-${item}`} type="radio" name="rating" value={`${item}`}/>
+                        <label className="rating__label" htmlFor={`star-${item}`}>Rating {item}</label>
+                      </Fragment>
+                    );
+                  })
+                }
 
-                <input onChange={this._handleChangeRating} className="rating__input" id="star-2" type="radio" name="rating" value="2"/>
-                <label className="rating__label" htmlFor="star-2">Rating 2</label>
-
-                <input onChange={this._handleChangeRating} className="rating__input" id="star-3" type="radio" name="rating" value="3"/>
-                <label className="rating__label" htmlFor="star-3">Rating 3</label>
-
-                <input onChange={this._handleChangeRating} className="rating__input" id="star-4" type="radio" name="rating" value="4"/>
-                <label className="rating__label" htmlFor="star-4">Rating 4</label>
-
-                <input onChange={this._handleChangeRating} className="rating__input" id="star-5" type="radio" name="rating" value="5"/>
-                <label className="rating__label" htmlFor="star-5">Rating 5</label>
               </div>
             </div>
 
@@ -93,7 +101,7 @@ class AddReview extends PureComponent {
                 className="add-review__textarea" name="review-text" id="review-text"
                 placeholder="Review text"/>
               <div className="add-review__submit">
-                <button className="add-review__btn" type="submit">Post</button>
+                <button className="add-review__btn" type="submit" disabled={this.state.isDisabled}>Post</button>
               </div>
 
             </div>
