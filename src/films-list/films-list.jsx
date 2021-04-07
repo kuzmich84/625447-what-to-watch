@@ -6,14 +6,23 @@ class FilmsList extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      film: {}
+      film: {},
+      isMouseOverCard: false,
     };
     this._handlerMouseOverCard = this._handlerMouseOverCard.bind(this);
+    this._handlerMouseOutCard = this._handlerMouseOutCard.bind(this);
   }
 
   _handlerMouseOverCard(film) {
     this.setState(() => ({
-      film
+      film,
+      isMouseOverCard: true,
+    }));
+  }
+
+  _handlerMouseOutCard() {
+    this.setState(() => ({
+      isMouseOverCard: false,
     }));
   }
 
@@ -25,6 +34,8 @@ class FilmsList extends React.PureComponent {
           key={film.id}
           film={film}
           handlerMouseOverCard={this._handlerMouseOverCard}
+          handlerMouseOutCard={this._handlerMouseOutCard}
+          isMouseOverCard = {this.state.isMouseOverCard}
         />))}
 
       </div>
