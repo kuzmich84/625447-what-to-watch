@@ -1,5 +1,4 @@
 import React from "react";
-import SmallMovieCard from "../components/small-movie-card/small-movie-card";
 import PropTypes from "prop-types";
 import VideoPlayer from "../components/videoplayer/videoplayer";
 
