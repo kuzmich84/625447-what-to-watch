@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import VideoPlayer from "../components/videoplayer/videoplayer";
+import VideoPlayer from "../videoplayer/videoplayer";
 
 class FilmsList extends React.PureComponent {
   constructor(props) {
@@ -45,8 +45,6 @@ class FilmsList extends React.PureComponent {
             handlerMouseOutCard={this._handlerMouseOutCard}
             isPlaying={i === activePlayer}
           />
-
-
         ))}
 
       </div>

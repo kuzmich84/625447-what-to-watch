@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FilmsList from "../../films-list/films-list";
+import FilmsList from "../films-list/films-list";
 
 const Main = ({title, genre, date, films}) => {
   return (
