@@ -15,7 +15,6 @@ export default class VideoPlayer extends PureComponent {
 
   _startVideo() {
     const video = this.videoRef.current;
-    video.load();
     this.start = setTimeout(() => video.play(), 1000);
   }
 

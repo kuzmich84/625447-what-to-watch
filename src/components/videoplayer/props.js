@@ -4,4 +4,5 @@ export default {
   handlerMouseOverCard: PropTypes.func.isRequired,
   handlerMouseOutCard: PropTypes.func.isRequired,
   film: PropTypes.object.isRequired,
-}
+};
+
