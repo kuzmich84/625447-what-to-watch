@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
-import VideoPlayer from "../videoplayer/videoplayer";
 
 
-const SmallMovieCard = ({film, handlerMouseOverCard, handlerMouseOutCard, isMouseOverCard}) => {
-  const {id, name, previewImage, videoLink} = film;
+const SmallMovieCard = ({film, handlerMouseOverCard, handlerMouseOutCard}) => {
+  const {id, name, previewImage} = film;
   const link = `/films/${id}`;
   return (
     <article
@@ -14,10 +13,8 @@ const SmallMovieCard = ({film, handlerMouseOverCard, handlerMouseOutCard, isMous
       onMouseOut={() => handlerMouseOutCard()}
     >
       <div className="small-movie-card__image">
-        {isMouseOverCard
-          ? <VideoPlayer previewImage={previewImage} videoLink={videoLink} isMouseOverCard={isMouseOverCard}/>
-          : <img src={previewImage} alt="Fantastic Beasts: The Crimes of Grindelwald"
-            width="280" height="175"/>}
+        <img src={previewImage} alt="Fantastic Beasts: The Crimes of Grindelwald"
+          width="280" height="175"/>
 
 
       </div>
@@ -32,5 +29,6 @@ export default SmallMovieCard;
 
 SmallMovieCard.propTypes = {
   handlerMouseOverCard: PropTypes.func.isRequired,
+  handlerMouseOutCard: PropTypes.func.isRequired,
   film: PropTypes.object.isRequired,
 };
