@@ -24,7 +24,7 @@ const App = ({promoFilm, films, reviews}) => {
         <Route exact path="/films/:id" render={({match}) => {
           const {id} = match.params;
           return (
-            <Film film={films[id - 1]} reviews={reviews}/>
+            <Film film={films[id - 1]} reviews={reviews} films={films}/>
           );
         }}/>
         <Route exact path="/player/:id" render={() => {

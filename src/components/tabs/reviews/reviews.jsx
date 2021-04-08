@@ -32,5 +32,5 @@ const Reviews = ({reviews}) => {
 export default Reviews;
 
 Reviews.propTypes = {
-  reviews: PropTypes.object.isRequired
+  reviews: PropTypes.arrayOf(PropTypes.object.isRequired)
 };
