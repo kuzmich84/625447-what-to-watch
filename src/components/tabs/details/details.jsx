@@ -1,5 +1,5 @@
 import React from "react";
-import {transformTime} from "../../utils";
+import {transformTime} from "../../../utils";
 import PropTypes from "prop-types";
 
 const Details = ({film}) => {
