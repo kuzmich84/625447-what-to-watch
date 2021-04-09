@@ -1,5 +1,5 @@
 import React from "react";
-import {setDateToString} from "../utils";
+import {setDateToString} from "../../utils";
 import PropTypes from "prop-types";
 
 const Review = (props) => {
