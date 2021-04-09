@@ -10,3 +10,8 @@ export const setDateToString = (datestring) => {
 
   return `${date.toLocaleString(`en`, {month: `long`})} ${date.getDate()}, ${date.getFullYear()}`;
 };
+
+export const extend = (a, b) => {
+  return Object.assign({}, a, b);
+};
+
