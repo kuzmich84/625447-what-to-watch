@@ -85,14 +85,13 @@ export default class Film extends PureComponent {
             <div className="movie-card__info">
               <div className="movie-card__poster movie-card__poster--big">
                 <img src={posterImage} alt="The Grand Budapest Hotel poster" width="218"
-                     height="327"/>
+                  height="327"/>
               </div>
 
               <div className="movie-card__desc">
                 <nav className="movie-nav movie-card__nav">
                   <Tabs handlerTabOpen={this._handlerTabOpen} isActive={this.state.isActive}/>
                 </nav>
-
                 {this.state.isActive === 0 && <Overview film={this.props.film}/>}
                 {this.state.isActive === 1 && <Details film={this.props.film}/>}
                 {this.state.isActive === 2 && <Reviews reviews={this.props.reviews}/>}
