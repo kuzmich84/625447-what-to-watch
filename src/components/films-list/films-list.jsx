@@ -14,11 +14,11 @@ class FilmsList extends React.PureComponent {
     this._handlerMouseOutCard = this._handlerMouseOutCard.bind(this);
   }
 
-  _handlerMouseOverCard(film) {
+  _handlerMouseOverCard(film, i) {
     this.setState(() => ({
       film,
       isPlaying: true,
-      activePlayer: film.id - 1
+      activePlayer: i
     }));
   }
 
@@ -44,6 +44,7 @@ class FilmsList extends React.PureComponent {
             handlerMouseOverCard={this._handlerMouseOverCard}
             handlerMouseOutCard={this._handlerMouseOutCard}
             isPlaying={i === activePlayer}
+            i={i}
           />
         ))}
 

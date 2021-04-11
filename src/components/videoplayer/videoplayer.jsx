@@ -2,6 +2,7 @@ import React, {PureComponent} from "react";
 import {Link} from "react-router-dom";
 import propsVideoPlayer from './props';
 
+
 export default class VideoPlayer extends PureComponent {
   constructor(props) {
     super(props);
@@ -39,13 +40,13 @@ export default class VideoPlayer extends PureComponent {
   }
 
   render() {
-    const {handlerMouseOverCard, handlerMouseOutCard, film} = this.props;
+    const {handlerMouseOverCard, handlerMouseOutCard, film, i} = this.props;
     const {id, name, previewImage, videoLink} = film;
 
     return (
       <article
         className="small-movie-card catalog__movies-card"
-        onMouseOver={() => handlerMouseOverCard(film)}
+        onMouseOver={() => handlerMouseOverCard(film, i)}
         onMouseOut={() => handlerMouseOutCard()}
       >
         <div className="small-movie-card__image">
