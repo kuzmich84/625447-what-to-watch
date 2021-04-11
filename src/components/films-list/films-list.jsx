@@ -1,61 +1,33 @@
 import React from "react";
 import PropTypes from "prop-types";
 import VideoPlayer from "../videoplayer/videoplayer";
+import withActiveItem from "../../hocs/withActiveItem";
 
-class FilmsList extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      film: {},
-      isPlaying: false,
-      activePlayer: -1,
-    };
-    this._handlerMouseOverCard = this._handlerMouseOverCard.bind(this);
-    this._handlerMouseOutCard = this._handlerMouseOutCard.bind(this);
-  }
+const FilmsList = ({films, handlerMouseOverCard, handlerMouseOutCard, activePlayer}) => {
+  return (
+    <div className="catalog__movies-list">
+      {films.map((film, i) => (
+        <VideoPlayer
+          key={film.id}
+          film={film}
+          handlerMouseOverCard={handlerMouseOverCard}
+          handlerMouseOutCard={handlerMouseOutCard}
+          isPlaying={i === activePlayer}
+          i={i}
+        />
+      ))}
 
-  _handlerMouseOverCard(film, i) {
-    this.setState(() => ({
-      film,
-      isPlaying: true,
-      activePlayer: i
-    }));
-  }
-
-  _handlerMouseOutCard() {
-    this.setState(() => ({
-      film: {},
-      isPlaying: false,
-      activePlayer: -1
-    }));
-  }
+    </div>
+  );
+};
 
 
-  render() {
-    const films = this.props.films;
-    const {activePlayer} = this.state;
-
-    return (
-      <div className="catalog__movies-list">
-        {films.map((film, i) => (
-          <VideoPlayer
-            key={film.id}
-            film={film}
-            handlerMouseOverCard={this._handlerMouseOverCard}
-            handlerMouseOutCard={this._handlerMouseOutCard}
-            isPlaying={i === activePlayer}
-            i={i}
-          />
-        ))}
-
-      </div>
-    );
-  }
-}
-
-export default FilmsList;
+export default withActiveItem(FilmsList);
 
 FilmsList.propTypes = {
   films: PropTypes.array.isRequired,
+  handlerMouseOverCard: PropTypes.func.isRequired,
+  handlerMouseOutCard: PropTypes.func.isRequired,
+  activePlayer: PropTypes.number.isRequired,
 };
 
