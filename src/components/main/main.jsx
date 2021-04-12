@@ -3,8 +3,15 @@ import PropTypes from 'prop-types';
 import FilmsList from "../films-list/films-list";
 import GenreList from "../genre-list/genre-list";
 import {connect} from "react-redux";
+import ShowMore from "../show-more/show-more";
+import withActiveShowMore from "../../hocs/withActiveShowMore";
 
-const Main = ({title, genre, date}) => {
+const Main = ({title, genre, genrePromo, date, films, filmsOfGenre, handlerClickButton, number}) => {
+
+  function getFilmsPart(array, value) {
+    return array.slice(0, value);
+  }
+
   return (
     <>
       <section className="movie-card">
@@ -40,7 +47,7 @@ const Main = ({title, genre, date}) => {
             <div className="movie-card__desc">
               <h2 className="movie-card__title">{title}</h2>
               <p className="movie-card__meta">
-                <span className="movie-card__genre">{genre}</span>
+                <span className="movie-card__genre">{genrePromo}</span>
                 <span className="movie-card__year">{date}</span>
               </p>
 
@@ -70,11 +77,11 @@ const Main = ({title, genre, date}) => {
           <GenreList/>
 
 
-          <FilmsList />
-
-
+          <FilmsList films={filmsOfGenre.length ? getFilmsPart(filmsOfGenre, number) : getFilmsPart(films, number)}/>
           <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
+            {films.length >= number && genre === `All genres` ? <ShowMore handlerClickButton={handlerClickButton}/> : ``}
+            {filmsOfGenre.length >= number ? <ShowMore handlerClickButton={handlerClickButton}/> : ``}
+
           </div>
         </section>
 
@@ -97,14 +104,26 @@ const Main = ({title, genre, date}) => {
 
 };
 
+
+const mapStateToProps = (state) => ({
+  filmsOfGenre: state.filmsOfGenre,
+  films: state.films,
+  genre: state.genre
+});
+
+
 Main.propTypes = {
   title: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
+  genrePromo: PropTypes.string.isRequired,
   date: PropTypes.number.isRequired,
-
+  filmsOfGenre: PropTypes.arrayOf(PropTypes.object),
+  films: PropTypes.arrayOf(PropTypes.object),
+  handlerClickButton: PropTypes.func.isRequired,
+  number: PropTypes.number.isRequired,
 };
 
 
-export default Main;
-
+export {Main};
+export default connect(mapStateToProps)(withActiveShowMore(Main));
 

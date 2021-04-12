@@ -7,6 +7,7 @@ import SignIn from "../sign-in/sign-in";
 import MyList from "../my-list/my-list";
 import Player from "../player/player";
 import AddReview from "../add-review/add-review";
+import {connect} from "react-redux";
 
 const App = ({promoFilm, films, reviews}) => {
 
@@ -17,7 +18,7 @@ const App = ({promoFilm, films, reviews}) => {
         <Route exact path="/mylist" component={MyList}/>
         <Route exact path="/" render={() => {
           return (
-            <Main title={promoFilm.title} genre={promoFilm.genre} date={promoFilm.date}/>
+            <Main title={promoFilm.title} genrePromo={promoFilm.genrePromo} date={promoFilm.date}/>
           );
         }}
         />
@@ -35,7 +36,7 @@ const App = ({promoFilm, films, reviews}) => {
         <Route exact path="/films/:id/review" render={({match}) => {
           const {id} = match.params;
           return (
-            <AddReview film={films[id - 1]} />
+            <AddReview film={films[id - 1]}/>
           );
         }}/>
 
@@ -48,10 +49,18 @@ const App = ({promoFilm, films, reviews}) => {
   );
 };
 
+
+const mapStateToProps = (state) => ({
+  films: state.films,
+});
+
+export {App};
+export default connect(mapStateToProps)(App);
+
 App.propTypes = {
   promoFilm: PropTypes.shape({
     title: PropTypes.string,
-    genre: PropTypes.string,
+    genrePromo: PropTypes.string,
     date: PropTypes.number,
   }),
   films: PropTypes.array.isRequired,
@@ -66,6 +75,3 @@ App.propTypes = {
     date: PropTypes.string.isRequired
   }))
 };
-
-
-export default App;
