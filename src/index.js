@@ -4,9 +4,7 @@ import {createStore} from "redux";
 import {Provider} from "react-redux";
 import {reducer} from "./store/reducer";
 import App from "./components/app/app";
-import PropTypes from "prop-types";
 import camelcaseKeys from "camelcase-keys";
-import films from "./mocks/films";
 import reviews from "./mocks/reviews";
 
 
@@ -26,13 +24,7 @@ ReactDOM.render(
     <Provider store={store}>
       <App
         promoFilm={promoFilm}
-        films={camelcaseKeys(films)}
         reviews={camelcaseKeys(reviews)}
       />
     </Provider>,
     document.getElementById(`root`));
-
-
-App.propTypes = {
-  films: PropTypes.arrayOf(PropTypes.object),
-};

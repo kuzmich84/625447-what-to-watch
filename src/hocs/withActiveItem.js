@@ -1,5 +1,4 @@
 import React, {PureComponent} from "react";
-import VideoPlayer from "../components/videoplayer/videoplayer";
 
 
 const withActiveItem = (Component) => {

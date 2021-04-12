@@ -4,7 +4,7 @@ import FilmsList from "../films-list/films-list";
 import GenreList from "../genre-list/genre-list";
 import {connect} from "react-redux";
 
-const Main = ({title, genre, date}) => {
+const Main = ({title, genre, date, films, filmsOfGenre}) => {
   return (
     <>
       <section className="movie-card">
@@ -70,7 +70,7 @@ const Main = ({title, genre, date}) => {
           <GenreList/>
 
 
-          <FilmsList />
+          <FilmsList films={filmsOfGenre.length ? filmsOfGenre : films}/>
 
 
           <div className="catalog__more">
@@ -97,14 +97,22 @@ const Main = ({title, genre, date}) => {
 
 };
 
+
+const mapStateToProps = (state) => ({
+  filmsOfGenre: state.filmsOfGenre,
+  films: state.films,
+});
+
+
 Main.propTypes = {
   title: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
   date: PropTypes.number.isRequired,
-
+  filmsOfGenre: PropTypes.arrayOf(PropTypes.object),
+  films: PropTypes.arrayOf(PropTypes.object),
 };
 
 
-export default Main;
-
+export {Main};
+export default connect(mapStateToProps)(Main);
 
