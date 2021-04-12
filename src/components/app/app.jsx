@@ -17,7 +17,7 @@ const App = ({promoFilm, films, reviews}) => {
         <Route exact path="/mylist" component={MyList}/>
         <Route exact path="/" render={() => {
           return (
-            <Main title={promoFilm.title} genre={promoFilm.genre} date={promoFilm.date} films={films}/>
+            <Main title={promoFilm.title} genre={promoFilm.genre} date={promoFilm.date}/>
           );
         }}
         />
