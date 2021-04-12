@@ -18,7 +18,7 @@ const App = ({promoFilm, films, reviews}) => {
         <Route exact path="/mylist" component={MyList}/>
         <Route exact path="/" render={() => {
           return (
-            <Main title={promoFilm.title} genre={promoFilm.genre} date={promoFilm.date}/>
+            <Main title={promoFilm.title} genrePromo={promoFilm.genrePromo} date={promoFilm.date}/>
           );
         }}
         />
@@ -60,7 +60,7 @@ export default connect(mapStateToProps)(App);
 App.propTypes = {
   promoFilm: PropTypes.shape({
     title: PropTypes.string,
-    genre: PropTypes.string,
+    genrePromo: PropTypes.string,
     date: PropTypes.number,
   }),
   films: PropTypes.array.isRequired,

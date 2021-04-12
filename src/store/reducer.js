@@ -6,7 +6,7 @@ import camelcaseKeys from "camelcase-keys";
 const initialState = {
   genre: `All genres`,
   films: camelcaseKeys(Films),
-  filmsOfGenre: camelcaseKeys(Films)
+  filmsOfGenre: [],
 };
 
 export const reducer = (state = initialState, action) => {

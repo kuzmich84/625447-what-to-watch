@@ -10,7 +10,7 @@ import reviews from "./mocks/reviews";
 
 const promoFilm = {
   title: `The Grand Budapest Hotel`,
-  genre: `Drama`,
+  genrePromo: `Drama`,
   date: 2014,
 };
 
