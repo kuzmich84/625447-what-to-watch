@@ -7,6 +7,7 @@ const initialState = {
   genre: `All genres`,
   films: camelcaseKeys(Films),
   filmsOfGenre: [],
+  isVideoPlayer: false,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -19,7 +20,12 @@ export const reducer = (state = initialState, action) => {
 
     case ActionType.GET_FILM_LIST_OF_GENRE:
       return extend(state, {
-        filmsOfGenre: action.payload
+        filmsOfGenre: action.payload,
+      });
+
+    case ActionType.SHOW_VIDEO_PAGE:
+      return extend(state, {
+        isVideoPlayer: action.payload,
       });
 
     default:

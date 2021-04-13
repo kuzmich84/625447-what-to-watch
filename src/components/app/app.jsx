@@ -52,6 +52,7 @@ const App = ({promoFilm, films, reviews}) => {
 
 const mapStateToProps = (state) => ({
   films: state.films,
+  isVideoPlayer: state.isVideoPlayer,
 });
 
 export {App};

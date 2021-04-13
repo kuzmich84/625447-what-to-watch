@@ -1283,6 +1283,7 @@ main {
   width: 200px; }
 
 .small-movie-card {
+  z-index:1;
   border-radius: 6px;
   overflow: hidden;
   position: relative;

@@ -5,11 +5,17 @@ import GenreList from "../genre-list/genre-list";
 import {connect} from "react-redux";
 import ShowMore from "../show-more/show-more";
 import withActiveShowMore from "../../hocs/withActiveShowMore";
+import {ActionCreator} from "../../store/action";
+import MainVideoPlayer from "../main-videoplayer/main-videoplayer";
 
-const Main = ({title, genre, genrePromo, date, films, filmsOfGenre, handlerClickButton, number}) => {
+const Main = ({title, genre, genrePromo, date, films, filmsOfGenre, handlerClickButton, number, showVideoPageAction, isVideoPlayer}) => {
 
   function getFilmsPart(array, value) {
     return array.slice(0, value);
+  }
+
+  function handlerShowVideoPage() {
+    showVideoPageAction(true);
   }
 
   return (
@@ -52,7 +58,7 @@ const Main = ({title, genre, genrePromo, date, films, filmsOfGenre, handlerClick
               </p>
 
               <div className="movie-card__buttons">
-                <button className="btn btn--play movie-card__button" type="button">
+                <button className="btn btn--play movie-card__button" type="button" onClick={handlerShowVideoPage}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
@@ -99,6 +105,7 @@ const Main = ({title, genre, genrePromo, date, films, filmsOfGenre, handlerClick
           </div>
         </footer>
       </div>
+      {isVideoPlayer ? <MainVideoPlayer film={films[0]}/> : ``}
     </>
   );
 
@@ -108,8 +115,19 @@ const Main = ({title, genre, genrePromo, date, films, filmsOfGenre, handlerClick
 const mapStateToProps = (state) => ({
   filmsOfGenre: state.filmsOfGenre,
   films: state.films,
-  genre: state.genre
+  genre: state.genre,
+  isVideoPlayer: state.isVideoPlayer,
 });
+
+const mapDispatchToProps = (dispatch) => ({
+  showVideoPageAction(value) {
+    dispatch(ActionCreator.showVideoPage(value));
+  }
+});
+
+
+export {Main};
+export default connect(mapStateToProps, mapDispatchToProps)(withActiveShowMore(Main));
 
 
 Main.propTypes = {
@@ -121,9 +139,6 @@ Main.propTypes = {
   films: PropTypes.arrayOf(PropTypes.object),
   handlerClickButton: PropTypes.func.isRequired,
   number: PropTypes.number.isRequired,
+  showVideoPageAction: PropTypes.func.isRequired,
+  isVideoPlayer: PropTypes.bool.isRequired,
 };
-
-
-export {Main};
-export default connect(mapStateToProps)(withActiveShowMore(Main));
-

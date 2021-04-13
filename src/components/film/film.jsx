@@ -7,8 +7,11 @@ import Details from "../tabs/details/details";
 import Reviews from "../tabs/reviews/reviews";
 import FilmsList from "../films-list/films-list";
 import withActiveTab from "../../hocs/withActiveTab";
+import MainVideoPlayer from "../main-videoplayer/main-videoplayer";
+import {ActionCreator} from "../../store/action";
+import {connect} from "react-redux";
 
-const Film = ({film, films, isActive, handlerTabOpen, reviews}) => {
+const Film = ({film, films, isActive, handlerTabOpen, reviews, isVideoPlayer, showVideoPageAction}) => {
   const {backgroundImage, name, genre, released, posterImage, id} = film;
   const likeGenreFilms = films.filter((itemFilm) => itemFilm.genre === genre && itemFilm.id !== id).slice(0, 3);
 
@@ -47,7 +50,7 @@ const Film = ({film, films, isActive, handlerTabOpen, reviews}) => {
               </p>
 
               <div className="movie-card__buttons">
-                <button className="btn btn--play movie-card__button" type="button">
+                <button className="btn btn--play movie-card__button" type="button" onClick={() => showVideoPageAction(!isVideoPlayer)}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"/>
                   </svg>
@@ -104,12 +107,24 @@ const Film = ({film, films, isActive, handlerTabOpen, reviews}) => {
           </div>
         </footer>
       </div>
+      {isVideoPlayer ? <MainVideoPlayer film={film}/> : ``}
     </>
   );
 };
 
 
-export default withActiveTab(Film);
+const mapStateToProps = (state) => ({
+  isVideoPlayer: state.isVideoPlayer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  showVideoPageAction(value) {
+    dispatch(ActionCreator.showVideoPage(value));
+  }
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withActiveTab(Film));
 
 Film.propTypes = {
   film: PropTypes.object.isRequired,
