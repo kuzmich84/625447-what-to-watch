@@ -8,11 +8,13 @@ const withActivePlayer = (Component) => {
         isPlaying: false,
         currentTime: 0,
         durationFilm: 0,
+        buffered: [0, 0],
       };
 
       this._handleButtonClick = this._handleButtonClick.bind(this);
       this._handleCurrentTimeChange = this._handleCurrentTimeChange.bind(this);
       this._handleFilmDuration = this._handleFilmDuration.bind(this);
+      this._handleFilmBuffer = this._handleFilmBuffer.bind(this);
 
     }
 
@@ -34,15 +36,23 @@ const withActivePlayer = (Component) => {
       }));
     }
 
+    _handleFilmBuffer(startX, endX) {
+      this.setState(() => ({
+        buffered: [startX, endX]
+      }));
+    }
+
     render() {
       return <Component
         {...this.props}
         handleButtonClick={this._handleButtonClick}
         handleCurrentTimeChange={this._handleCurrentTimeChange}
         handleFilmDuration={this._handleFilmDuration}
+        handleFilmBuffer={this._handleFilmBuffer}
         isPlaying={this.state.isPlaying}
         currentTimeFilm={this.state.currentTime}
         durationFilm={this.state.durationFilm}
+        buffered={this.state.buffered}
       />;
     }
   }
