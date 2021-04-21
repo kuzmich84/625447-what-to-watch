@@ -5,8 +5,9 @@ import GenreList from "../genre-list/genre-list";
 import {connect} from "react-redux";
 import ShowMore from "../show-more/show-more";
 import withActiveShowMore from "../../hocs/withActiveShowMore";
-import {ActionCreator} from "../../store/action";
+import {showVideoPage} from "../../store/action";
 import MainVideoPlayer from "../main-videoplayer/main-videoplayer";
+import {getFilms, getFilmsOfGenre, getGenre, getIsVideoPlayer} from "../../store/selectors";
 
 const Main = ({title, genre, genrePromo, date, films, filmsOfGenre, handlerClickButton, number, showVideoPageAction, isVideoPlayer}) => {
 
@@ -113,15 +114,15 @@ const Main = ({title, genre, genrePromo, date, films, filmsOfGenre, handlerClick
 
 
 const mapStateToProps = (state) => ({
-  filmsOfGenre: state.filmsOfGenre,
-  films: state.films,
-  genre: state.genre,
-  isVideoPlayer: state.isVideoPlayer,
+  filmsOfGenre: getFilmsOfGenre(state),
+  films: getFilms(state),
+  genre: getGenre(state),
+  isVideoPlayer: getIsVideoPlayer(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   showVideoPageAction(value) {
-    dispatch(ActionCreator.showVideoPage(value));
+    dispatch(showVideoPage(value));
   }
 });
 

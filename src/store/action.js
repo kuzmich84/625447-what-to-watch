@@ -4,17 +4,17 @@ export const ActionType = {
   SHOW_VIDEO_PAGE: `SHOW_VIDEO_PAGE`,
 };
 
-export const ActionCreator = {
-  changeGenre: (genre) => ({
-    type: ActionType.CHANGE_GENRE,
-    payload: genre,
-  }),
-  getFilmListOfGenre: (films) => ({
-    type: ActionType.GET_FILM_LIST_OF_GENRE,
-    payload: films
-  }),
-  showVideoPage: (value) => ({
-    type: ActionType.SHOW_VIDEO_PAGE,
-    payload: value,
-  })
-};
+
+export const changeGenre = (genre) => ({
+  type: ActionType.CHANGE_GENRE,
+  payload: genre,
+});
+export const getFilmListOfGenre = (films) => ({
+  type: ActionType.GET_FILM_LIST_OF_GENRE,
+  payload: films
+});
+
+export const showVideoPage = (value) => ({
+  type: ActionType.SHOW_VIDEO_PAGE,
+  payload: value,
+});

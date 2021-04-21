@@ -1,9 +1,10 @@
 import React, {createRef} from "react";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../store/action";
+import {showVideoPage} from "../../store/action";
 import PropTypes from "prop-types";
 import withActivePlayer from "../../hocs/withActivePlayer";
 import {secToTime} from "../../utils";
+import {getIsVideoPlayer} from "../../store/selectors";
 
 
 const MainVideoPlayer = ({
@@ -106,12 +107,12 @@ const MainVideoPlayer = ({
 };
 
 const mapStateToProps = (state) => ({
-  isVideoPlayer: state.isVideoPlayer,
+  isVideoPlayer: getIsVideoPlayer(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   showVideoPageAction(value) {
-    dispatch(ActionCreator.showVideoPage(value));
+    dispatch(showVideoPage(value));
   }
 });
 

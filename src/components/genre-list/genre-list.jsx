@@ -1,7 +1,8 @@
 import React from "react";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../store/action";
+import {changeGenre, getFilmListOfGenre} from "../../store/action";
 import PropTypes from "prop-types";
+import {getFilms, getGenre} from "../../store/selectors";
 
 
 const GenreList = ({films, genre, changeGenreAction, getFilmListOfGenreAction}) => {
@@ -45,16 +46,16 @@ const GenreList = ({films, genre, changeGenreAction, getFilmListOfGenreAction}) 
 };
 
 const mapStateToProps = (state) => ({
-  films: state.films,
-  genre: state.genre,
+  films: getFilms(state),
+  genre: getGenre(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   changeGenreAction(value) {
-    dispatch(ActionCreator.changeGenre(value));
+    dispatch(changeGenre(value));
   },
   getFilmListOfGenreAction(value) {
-    dispatch(ActionCreator.getFilmListOfGenre(value));
+    dispatch(getFilmListOfGenre(value));
   }
 });
 

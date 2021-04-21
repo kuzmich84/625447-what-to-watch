@@ -8,8 +8,9 @@ import Reviews from "../tabs/reviews/reviews";
 import FilmsList from "../films-list/films-list";
 import withActiveTab from "../../hocs/withActiveTab";
 import MainVideoPlayer from "../main-videoplayer/main-videoplayer";
-import {ActionCreator} from "../../store/action";
+import {showVideoPage} from "../../store/action";
 import {connect} from "react-redux";
+import {getIsVideoPlayer} from "../../store/selectors";
 
 const Film = ({film, films, isActive, handlerTabOpen, reviews, isVideoPlayer, showVideoPageAction}) => {
   const {backgroundImage, name, genre, released, posterImage, id} = film;
@@ -114,12 +115,12 @@ const Film = ({film, films, isActive, handlerTabOpen, reviews, isVideoPlayer, sh
 
 
 const mapStateToProps = (state) => ({
-  isVideoPlayer: state.isVideoPlayer,
+  isVideoPlayer: getIsVideoPlayer(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   showVideoPageAction(value) {
-    dispatch(ActionCreator.showVideoPage(value));
+    dispatch(showVideoPage(value));
   }
 });
 
@@ -132,6 +133,6 @@ Film.propTypes = {
   films: PropTypes.arrayOf(PropTypes.object.isRequired),
   isActive: PropTypes.number.isRequired,
   handlerTabOpen: PropTypes.func.isRequired,
-
-
+  isVideoPlayer: PropTypes.bool.isRequired,
+  showVideoPageAction: PropTypes.func.isRequired,
 };

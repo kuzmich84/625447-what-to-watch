@@ -8,6 +8,7 @@ import MyList from "../my-list/my-list";
 import Player from "../player/player";
 import AddReview from "../add-review/add-review";
 import {connect} from "react-redux";
+import {getFilms, getIsVideoPlayer} from "../../store/selectors";
 
 const App = ({promoFilm, films, reviews}) => {
 
@@ -51,8 +52,8 @@ const App = ({promoFilm, films, reviews}) => {
 
 
 const mapStateToProps = (state) => ({
-  films: state.films,
-  isVideoPlayer: state.isVideoPlayer,
+  films: getFilms(state),
+  isVideoPlayer: getIsVideoPlayer(state),
 });
 
 export {App};
