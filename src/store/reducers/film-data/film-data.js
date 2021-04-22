@@ -1,11 +1,9 @@
-import camelcaseKeys from "camelcase-keys";
-import Films from "../../../mocks/films";
 import {ActionType} from "../../action";
 import {extend} from "../../../utils";
 
 const initialState = {
   genre: `All genres`,
-  films: camelcaseKeys(Films),
+  films: [],
   filmsOfGenre: [],
 };
 
@@ -20,6 +18,10 @@ export const filmData = (state = initialState, action) => {
     case ActionType.GET_FILM_LIST_OF_GENRE:
       return extend(state, {
         filmsOfGenre: action.payload,
+      });
+    case ActionType.LOAD_FILM_LIST:
+      return extend(state, {
+        films: action.payload,
       });
 
     default:
