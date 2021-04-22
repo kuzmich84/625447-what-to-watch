@@ -5,7 +5,7 @@ const withActiveShowMore = (Component) => {
     constructor(props) {
       super(props);
       this.state = {
-        number: 4,
+        number: 8,
       };
 
       this._handlerClickButton = this._handlerClickButton.bind(this);
@@ -13,13 +13,13 @@ const withActiveShowMore = (Component) => {
 
     _handlerClickButton() {
       this.setState(() => ({
-        number: this.state.number + 4
+        number: this.state.number + 8
       }));
     }
 
     componentWillUnmount() {
       this.setState(() => ({
-        number: 4,
+        number: 8,
       }));
     }
 

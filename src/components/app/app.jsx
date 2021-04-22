@@ -1,7 +1,7 @@
 import React from 'react';
 import Main from '../main/main';
 import PropTypes from 'prop-types';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {Router as BrowserRouter, Switch, Route} from 'react-router-dom';
 import Film from "../film/film";
 import SignIn from "../sign-in/sign-in";
 import MyList from "../my-list/my-list";
@@ -9,14 +9,23 @@ import Player from "../player/player";
 import AddReview from "../add-review/add-review";
 import {connect} from "react-redux";
 import {getFilms, getIsVideoPlayer} from "../../store/selectors";
+import PrivateRoute from "../private-root/private-root";
+import browserHistory from "../../browser-history";
+
 
 const App = ({promoFilm, films, reviews}) => {
 
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path="/login" component={SignIn}/>
-        <Route exact path="/mylist" component={MyList}/>
+        <PrivateRoute
+          exact
+          path="/mylist"
+          render={() => {
+            return <MyList/>;
+          }}
+        />
         <Route exact path="/" render={() => {
           return (
             <Main title={promoFilm.title} genrePromo={promoFilm.genrePromo} date={promoFilm.date}/>
@@ -34,13 +43,16 @@ const App = ({promoFilm, films, reviews}) => {
             <Player/>
           );
         }}/>
-        <Route exact path="/films/:id/review" render={({match}) => {
-          const {id} = match.params;
-          return (
-            <AddReview film={films[id - 1]}/>
-          );
-        }}/>
-
+        <PrivateRoute
+          exact
+          path="/films/:id/review"
+          render={({match}) => {
+            const {id} = match.params;
+            return (
+              <AddReview film={films[id - 1]}/>
+            );
+          }}
+        />
         <Route>
           <h1>No Found</h1>
         </Route>
