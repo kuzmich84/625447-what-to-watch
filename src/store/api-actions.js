@@ -1,4 +1,4 @@
-import {loadFilmList, loadPromoFilm, redirectToRoute, requireAuthorization} from "./action";
+import {loadFilm, loadFilmList, loadPromoFilm, redirectToRoute, requireAuthorization, setIsLoading} from "./action";
 import {AuthorisationStatus} from "../const";
 import camelcaseKeys from "camelcase-keys";
 
@@ -26,3 +26,12 @@ export const fetchPromoFilm = () => (dispatch, _getState, api) => {
   api.get(`/films/promo`)
     .then(({data}) => dispatch(loadPromoFilm(camelcaseKeys(data))));
 };
+export const fetchFilm = (filmId) => (dispatch, _getState, api) => (
+  api.get(`films/${filmId}`)
+    .then(({data}) => {
+      dispatch(loadFilm(camelcaseKeys(data, {deep: true})));
+    })
+    .then(() => dispatch(setIsLoading(false)))
+    // .then(() => dispatch(activeId(parseInt(offerId, 10))))
+    // })
+);

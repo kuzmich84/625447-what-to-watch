@@ -23,7 +23,6 @@ export const filmData = (state = initialState, action) => {
       return extend(state, {
         films: action.payload,
       });
-
     default:
       return state;
   }

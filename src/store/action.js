@@ -6,6 +6,8 @@ export const ActionType = {
   LOAD_FILM_LIST: `LOAD_FILM_LIST`,
   REDIRECT_TO_ROUTE: `REDIRECT_TO_ROUTE`,
   LOAD_PROMO_FILM: `LOAD_PROMO_FILM`,
+  LOAD_FILM: `LOAD_FILM`,
+  SET_IS_LOADING: `SET_IS_LOADING`
 };
 
 export const loadFilmList = (data) => ({
@@ -39,4 +41,14 @@ export const redirectToRoute = (url) => ({
 export const loadPromoFilm = (promoFilm) => ({
   type: ActionType.LOAD_PROMO_FILM,
   payload: promoFilm,
+});
+
+export const loadFilm = (film) => ({
+  type: ActionType.LOAD_FILM,
+  payload: film,
+});
+
+export const setIsLoading = (bool) => ({
+  type: ActionType.SET_IS_LOADING,
+  payload: bool,
 });
