@@ -4,6 +4,9 @@ import {extend} from "../../../utils";
 const initialState = {
   film: {},
   isLoading: true,
+  reviews: [],
+  isLoadingReview: true,
+  isSendReview: false,
 };
 
 const film = (state = initialState, action) => {
@@ -15,6 +18,18 @@ const film = (state = initialState, action) => {
     case ActionType.SET_IS_LOADING:
       return extend(state, {
         isLoading: action.payload
+      });
+    case ActionType.LOAD_REVIEWS:
+      return extend(state, {
+        reviews: action.payload
+      });
+    case ActionType.SET_IS_LOADING_REVIEW:
+      return extend(state, {
+        isLoadingReview: action.payload
+      });
+    case ActionType.SET_IS_SEND_REVIEW:
+      return extend(state, {
+        isSendReview: action.payload
       });
     default:
       return state;

@@ -7,7 +7,10 @@ export const ActionType = {
   REDIRECT_TO_ROUTE: `REDIRECT_TO_ROUTE`,
   LOAD_PROMO_FILM: `LOAD_PROMO_FILM`,
   LOAD_FILM: `LOAD_FILM`,
-  SET_IS_LOADING: `SET_IS_LOADING`
+  SET_IS_LOADING: `SET_IS_LOADING`,
+  LOAD_REVIEWS: `LOAD_REVIEWS`,
+  SET_IS_LOADING_REVIEW: `SET_IS_LOADING_REVIEW`,
+  SET_IS_SEND_REVIEW: `SET_IS_SEND_REVIEW`,
 };
 
 export const loadFilmList = (data) => ({
@@ -50,5 +53,20 @@ export const loadFilm = (film) => ({
 
 export const setIsLoading = (bool) => ({
   type: ActionType.SET_IS_LOADING,
+  payload: bool,
+});
+
+export const loadReviews = (reviews) => ({
+  type: ActionType.LOAD_REVIEWS,
+  payload: reviews,
+});
+
+export const setIsLoadingReview = (bool) => ({
+  type: ActionType.SET_IS_LOADING_REVIEW,
+  payload: bool,
+});
+
+export const setIsSendReview = (bool) => ({
+  type: ActionType.SET_IS_SEND_REVIEW,
   payload: bool,
 });

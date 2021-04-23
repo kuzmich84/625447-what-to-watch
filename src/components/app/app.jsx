@@ -35,7 +35,7 @@ const App = ({promoFilm, films, reviews}) => {
         <Route exact path="/films/:id" render={({match}) => {
           const {id} = match.params;
           return (
-            <Film reviews={reviews} films={films} filmId={id}/>
+            <Film films={films} filmId={id}/>
           );
         }}/>
         <Route exact path="/player/:id" render={() => {
@@ -49,7 +49,7 @@ const App = ({promoFilm, films, reviews}) => {
           render={({match}) => {
             const {id} = match.params;
             return (
-              <AddReview film={films[id - 1]}/>
+              <AddReview filmId={id} film={films[id - 1]}/>
             );
           }}
         />

@@ -1,17 +1,20 @@
 import React, {Fragment, PureComponent} from 'react';
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {commentPost} from "../../store/api-actions";
 
 class AddReview extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      rating: 0,
+      rating: 5,
       review: ``,
       isDisabled: true,
     };
     this._handleChangeReview = this._handleChangeReview.bind(this);
     this._handleChangeRating = this._handleChangeRating.bind(this);
     this._validation = this._validation.bind(this);
+    this._handleSubmitComment = this._handleSubmitComment.bind(this);
   }
 
   _handleChangeReview(evt) {
@@ -23,11 +26,24 @@ class AddReview extends PureComponent {
   }
 
   _validation() {
-    if (this.state.review.length >= 50 && this.state.review.length < 400 && this.state.rating !== 0) {
+    if (this.state.review.length >= 50 && this.state.review.length < 400) {
       this.setState({isDisabled: false});
     } else {
       this.setState({isDisabled: true});
     }
+  }
+
+  _handleSubmitComment(e) {
+    e.preventDefault();
+    const {onSubmitComment, filmId} = this.props;
+    onSubmitComment(filmId, {
+      comment: this.state.review,
+      rating: this.state.rating,
+    });
+    this.setState({
+      rating: 5,
+      review: ``,
+    });
   }
 
 
@@ -77,7 +93,7 @@ class AddReview extends PureComponent {
         </div>
 
         <div className="add-review">
-          <form action="#" className="add-review__form">
+          <form action="#" className="add-review__form" onSubmit={this._handleSubmitComment}>
             <div className="rating">
               <div className="rating__stars">
                 {
@@ -113,9 +129,17 @@ class AddReview extends PureComponent {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  onSubmitComment(filmId, data) {
+    dispatch(commentPost(filmId, data));
+  }
+});
 
-export default AddReview;
+
+export default connect(null, mapDispatchToProps)(AddReview);
 
 AddReview.propTypes = {
   film: PropTypes.object.isRequired,
+  onSubmitComment: PropTypes.func.isRequired,
+  filmId: PropTypes.string.isRequired,
 };
