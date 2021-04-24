@@ -1,9 +1,11 @@
 import React, {PureComponent} from "react";
 import {Link} from "react-router-dom";
 import propsVideoPlayer from './props';
+import {fetchFilm} from "../../store/api-actions";
+import {connect} from "react-redux";
 
 
-export default class VideoPlayer extends PureComponent {
+class VideoPlayer extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -40,7 +42,7 @@ export default class VideoPlayer extends PureComponent {
   }
 
   render() {
-    const {handlerMouseOverCard, handlerMouseOutCard, film, i} = this.props;
+    const {handlerMouseOverCard, handlerMouseOutCard, film, i, loadFilmServer} = this.props;
     const {id, name, previewImage, videoLink} = film;
 
     return (
@@ -54,8 +56,8 @@ export default class VideoPlayer extends PureComponent {
             <source src={videoLink} type='video/mp4'/>
           </video>
         </div>
-        <h3 className="small-movie-card__title">
-          <Link className="small-movie-card__link" to={`/films/${id}`}>{name}</Link>
+        <h3 className="small-movie-card__title" onClick={()=>loadFilmServer(id)}>
+          <Link className="small-movie-card__link" to={`/films/${id}`}>{name} </Link>
         </h3>
       </article>
 
@@ -63,6 +65,13 @@ export default class VideoPlayer extends PureComponent {
   }
 }
 
+
+const mapDispatchToProps = (dispatch) => ({
+  loadFilmServer(filmId) {
+    dispatch(fetchFilm(filmId));
+  }
+});
+export default connect(null, mapDispatchToProps)(VideoPlayer);
+
+
 VideoPlayer.propTypes = propsVideoPlayer;
-
-

@@ -13,8 +13,7 @@ import PrivateRoute from "../private-root/private-root";
 import browserHistory from "../../browser-history";
 
 
-const App = ({promoFilm, films, reviews}) => {
-
+const App = ({films}) => {
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
@@ -28,14 +27,14 @@ const App = ({promoFilm, films, reviews}) => {
         />
         <Route exact path="/" render={() => {
           return (
-            <Main title={promoFilm.title} genrePromo={promoFilm.genrePromo} date={promoFilm.date}/>
+            <Main />
           );
         }}
         />
         <Route exact path="/films/:id" render={({match}) => {
           const {id} = match.params;
           return (
-            <Film film={films[id - 1]} reviews={reviews} films={films}/>
+            <Film films={films} filmId={id}/>
           );
         }}/>
         <Route exact path="/player/:id" render={() => {
@@ -49,7 +48,7 @@ const App = ({promoFilm, films, reviews}) => {
           render={({match}) => {
             const {id} = match.params;
             return (
-              <AddReview film={films[id - 1]}/>
+              <AddReview filmId={id} film={films[id - 1]}/>
             );
           }}
         />
@@ -72,20 +71,5 @@ export {App};
 export default connect(mapStateToProps)(App);
 
 App.propTypes = {
-  promoFilm: PropTypes.shape({
-    title: PropTypes.string,
-    genrePromo: PropTypes.string,
-    date: PropTypes.number,
-  }),
   films: PropTypes.array.isRequired,
-  reviews: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    user: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired
-    }),
-    rating: PropTypes.number.isRequired,
-    comment: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired
-  }))
 };

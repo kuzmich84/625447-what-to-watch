@@ -1,13 +1,14 @@
 import React from "react";
 import Header from "../header/header";
-import {Link} from "react-router-dom";
 import {getPromoFilm} from "../../store/selectors";
 import {connect} from "react-redux";
 import {showVideoPage} from "../../store/action";
 import PropTypes from "prop-types";
+import AddMyListContainer from "../add-my-list/add-my-list-container";
+import {postFavorite} from "../../store/api-actions";
 
-const PromoFilm = ({promo, showVideoPageAction}) => {
-  const {name, genre, released, backgroundImage, posterImage} = promo;
+const PromoFilm = ({promo, showVideoPageAction, postFilmFavorite}) => {
+  const {name, genre, released, backgroundImage, posterImage, isFavorite, id} = promo;
 
   function handlerShowVideoPage() {
     showVideoPageAction(true);
@@ -21,7 +22,7 @@ const PromoFilm = ({promo, showVideoPageAction}) => {
 
       <h1 className="visually-hidden">WTW</h1>
 
-      <Header/>
+      <Header page={`main`}/>
 
       <div className="movie-card__wrap">
         <div className="movie-card__info">
@@ -44,14 +45,7 @@ const PromoFilm = ({promo, showVideoPageAction}) => {
                 </svg>
                 <span>Play</span>
               </button>
-              <Link to="/mylist">
-                <button className="btn btn--list movie-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"/>
-                  </svg>
-                  <span>My list</span>
-                </button>
-              </Link>
+              <AddMyListContainer filmId={id} isFavorite={isFavorite} postFilmFavorite={postFilmFavorite}/>
             </div>
           </div>
         </div>
@@ -67,6 +61,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   showVideoPageAction(value) {
     dispatch(showVideoPage(value));
+  },
+  postFilmFavorite(filmId, status) {
+    dispatch(postFavorite(filmId, status));
   }
 });
 export default connect(mapStateToProps, mapDispatchToProps)(PromoFilm);
@@ -74,4 +71,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(PromoFilm);
 PromoFilm.propTypes = {
   promo: PropTypes.object.isRequired,
   showVideoPageAction: PropTypes.func.isRequired,
+  postFilmFavorite: PropTypes.func.isRequired,
 };

@@ -124,4 +124,10 @@ MainVideoPlayer.propTypes = {
   isVideoPlayer: PropTypes.bool.isRequired,
   handleButtonClick: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,
+  handleCurrentTimeChange: PropTypes.func.isRequired,
+  currentTimeFilm: PropTypes.number.isRequired,
+  durationFilm: PropTypes.number.isRequired,
+  handleFilmDuration: PropTypes.func.isRequired,
+  handleFilmBuffer: PropTypes.func.isRequired,
+  buffered: PropTypes.array.isRequired,
 };
