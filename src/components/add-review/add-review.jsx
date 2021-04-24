@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {commentPost} from "../../store/api-actions";
 import {getErrorSendReview, getIsSendReview} from "../../store/selectors";
+import {setIsSendReview} from "../../store/action";
 
 class AddReview extends PureComponent {
   constructor(props) {
@@ -47,7 +48,8 @@ class AddReview extends PureComponent {
 
   _handleSubmitComment(e) {
     e.preventDefault();
-    const {onSubmitComment, filmId} = this.props;
+    const {onSubmitComment, filmId, onSetIsSendReview} = this.props;
+    onSetIsSendReview(true);
     onSubmitComment(filmId, {
       comment: this.state.review,
       rating: this.state.rating,
@@ -108,7 +110,7 @@ class AddReview extends PureComponent {
                   Array.from(`12345`).map((item) => {
                     return (
                       <Fragment key={item}>
-                        <input onChange={this._handleChangeRating} className="rating__input" id={`star-${item}`} type="radio" name="rating" value={`${item}`}/>
+                        <input onChange={this._handleChangeRating} className="rating__input" id={`star-${item}`} type="radio" name="rating" value={`${item}`} disabled={isSendReview}/>
                         <label className="rating__label" htmlFor={`star-${item}`}>Rating {item}</label>
                       </Fragment>
                     );
@@ -146,6 +148,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onSubmitComment(filmId, data) {
     dispatch(commentPost(filmId, data));
+  },
+  onSetIsSendReview(bool) {
+    dispatch(setIsSendReview(bool));
   }
 });
 
