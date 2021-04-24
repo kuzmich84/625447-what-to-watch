@@ -13,7 +13,6 @@ import {connect} from "react-redux";
 import {getFilm, getIsLoading, getIsVideoPlayer} from "../../store/selectors";
 import {postFavorite} from "../../store/api-actions";
 import Header from "../header/header";
-import AddMyList from "../add-my-list/add-my-list";
 import AddMyListContainer from "../add-my-list/add-my-list-container";
 
 const Film = ({film, films, isActive, handlerTabOpen, isVideoPlayer, showVideoPageAction, isLoading, filmId, postFilmFavorite}) => {
