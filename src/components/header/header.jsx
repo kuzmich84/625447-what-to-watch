@@ -45,5 +45,7 @@ export default connect(mapStateToProps)(Header);
 Header.propTypes = {
   authorisationStatus: PropTypes.string.isRequired,
   avatar: PropTypes.string,
-  render: PropTypes.func
+  render: PropTypes.func,
+  children: PropTypes.object,
+  page: PropTypes.string,
 };

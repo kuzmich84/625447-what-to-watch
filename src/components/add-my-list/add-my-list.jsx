@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const AddMyList = ({isFavorite, handlePostFavorite}) => {
 
@@ -26,3 +27,8 @@ const AddMyList = ({isFavorite, handlePostFavorite}) => {
 };
 
 export default AddMyList;
+
+AddMyList.propTypes = {
+  isFavorite: PropTypes.bool,
+  handlePostFavorite: PropTypes.func,
+};

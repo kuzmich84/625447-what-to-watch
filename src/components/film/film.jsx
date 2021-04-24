@@ -19,8 +19,6 @@ const Film = ({film, films, isActive, handlerTabOpen, isVideoPlayer, showVideoPa
   const {backgroundImage, name, genre, released, posterImage, id, isFavorite} = film;
   const likeGenreFilms = films.filter((itemFilm) => itemFilm.genre === genre && itemFilm.id !== id).slice(0, 3);
 
-
-
   if (isLoading) {
     return <p>Loading....</p>;
   } else {
