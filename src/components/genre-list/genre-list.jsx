@@ -55,5 +55,4 @@ GenreList.propTypes = {
   films: PropTypes.arrayOf(PropTypes.object).isRequired,
   genre: PropTypes.string.isRequired,
   changeGenreAction: PropTypes.func.isRequired,
-  getFilmListOfGenreAction: PropTypes.func.isRequired
 };
