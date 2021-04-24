@@ -69,7 +69,7 @@ export const commentPost = (filmId, {comment, rating}) => (dispatch, _getState, 
     .then(() => dispatch(setIsSendReview(true)))
     .then(() => dispatch(fetchFilmReviews(filmId)))
     .then(() => dispatch(setIsSendReview(false)))
-    .then(() => dispatch(redirectToRoute(`/films/${filmId}`)))
+    // .then(() => dispatch(redirectToRoute(`/films/${filmId}`)))
     .catch(({response}) => {
       dispatch(setErrorReviews(response.status));
     })

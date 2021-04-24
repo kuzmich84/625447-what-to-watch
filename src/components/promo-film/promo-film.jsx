@@ -22,7 +22,7 @@ const PromoFilm = ({promo, showVideoPageAction, postFilmFavorite}) => {
 
       <h1 className="visually-hidden">WTW</h1>
 
-      <Header/>
+      <Header page={`main`}/>
 
       <div className="movie-card__wrap">
         <div className="movie-card__info">

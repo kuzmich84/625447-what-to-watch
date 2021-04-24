@@ -20,7 +20,7 @@ const AddMyListContainer = ({isFavorite, postFilmFavorite, filmId}) => {
 export default AddMyListContainer;
 
 AddMyListContainer.propTypes = {
-  isFavorite: PropTypes.bool.isRequired,
-  postFilmFavorite: PropTypes.func.isRequired,
-  filmId: PropTypes.number.isRequired,
+  isFavorite: PropTypes.bool,
+  postFilmFavorite: PropTypes.func,
+  filmId: PropTypes.number,
 };
