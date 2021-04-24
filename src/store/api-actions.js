@@ -1,4 +1,4 @@
-import {loadFilm, loadFilmList, loadPromoFilm, loadReviews, redirectToRoute, requireAuthorization, setIsLoading, setIsLoadingReview, setIsSendReview} from "./action";
+import {loadFilm, loadFilmList, loadPromoFilm, loadReviews, redirectToRoute, requireAuthorization, setErrorReviews, setIsLoading, setIsLoadingReview, setIsSendReview} from "./action";
 import {AuthorisationStatus} from "../const";
 import camelcaseKeys from "camelcase-keys";
 
@@ -49,9 +49,7 @@ export const commentPost = (filmId, {comment, rating}) => (dispatch, _getState, 
     .then(() => dispatch(fetchFilmReviews(filmId)))
     .then(() => dispatch(setIsSendReview(false)))
     .then(() => dispatch(redirectToRoute(`/films/${filmId}`)))
-  // .then(() => cogoToast.success(`Your review send successfully.`))
-  // .catch(({response}) => {
-  //   dispatch(setErrorReviews(response.status));
-  //   cogoToast.error(`Your review didn't sent. Please try again.`);
-  // })
+    .catch(({response}) => {
+      dispatch(setErrorReviews(response.status));
+    })
 );

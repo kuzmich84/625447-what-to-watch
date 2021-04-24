@@ -6,9 +6,7 @@ export const getAuthorisationStatus = ({USER}) => USER.authorisationStatus;
 export const getPromoFilm = ({PROMO}) => PROMO.promo;
 export const getFilm = ({FILM}) => FILM.film;
 export const getIsLoading = ({FILM}) => FILM.isLoading;
-export const getReviews = ({FILM}) => FILM.reviews;
-export const getIsLoadingReviews = ({FILM}) => FILM.isLoadingReview;
-
-
-
-
+export const getReviews = ({REVIEWS}) => REVIEWS.reviews;
+export const getIsLoadingReviews = ({REVIEWS}) => REVIEWS.isLoadingReview;
+export const getIsSendReview = ({REVIEWS}) => REVIEWS.isSendReview;
+export const getErrorSendReview = ({REVIEWS}) => REVIEWS.error;

@@ -4,6 +4,7 @@ import {player} from "./film-process/film-process";
 import user from "./user/users";
 import promo from "./promo/promo";
 import film from "./film/film";
+import reviews from "./reviews/reviews";
 
 export const NameSpace = {
   DATA: `DATA`,
@@ -11,6 +12,7 @@ export const NameSpace = {
   USER: `USER`,
   PROMO: `PROMO`,
   FILM: `FILM`,
+  REVIEWS: `REVIEWS`
 };
 
 export default combineReducers(
@@ -20,6 +22,7 @@ export default combineReducers(
       [NameSpace.USER]: user,
       [NameSpace.PROMO]: promo,
       [NameSpace.FILM]: film,
+      [NameSpace.REVIEWS]: reviews,
     }
 );
 
