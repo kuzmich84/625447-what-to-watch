@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 import ShowMore from "../show-more/show-more";
 import withActiveShowMore from "../../hocs/withActiveShowMore";
 import MainVideoPlayer from "../main-videoplayer/main-videoplayer";
-import {getFilms, getFilmsOfGenre, getGenre, getIsVideoPlayer} from "../../store/selectors";
+import {getFilmListOfGenreReselect, getFilms, getGenre, getIsVideoPlayer} from "../../store/selectors";
 import PromoFilm from "../promo-film/promo-film";
 
 const Main = ({genre, films, filmsOfGenre, handlerClickButton, number, isVideoPlayer}) => {
@@ -51,7 +51,7 @@ const Main = ({genre, films, filmsOfGenre, handlerClickButton, number, isVideoPl
 
 
 const mapStateToProps = (state) => ({
-  filmsOfGenre: getFilmsOfGenre(state),
+  filmsOfGenre: getFilmListOfGenreReselect(state),
   films: getFilms(state),
   genre: getGenre(state),
   isVideoPlayer: getIsVideoPlayer(state),

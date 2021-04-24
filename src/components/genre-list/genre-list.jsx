@@ -1,11 +1,11 @@
 import React from "react";
 import {connect} from "react-redux";
-import {changeGenre, getFilmListOfGenre} from "../../store/action";
+import {changeGenre} from "../../store/action";
 import PropTypes from "prop-types";
 import {getFilms, getGenre} from "../../store/selectors";
 
 
-const GenreList = ({films, genre, changeGenreAction, getFilmListOfGenreAction}) => {
+const GenreList = ({films, genre, changeGenreAction}) => {
 
   function getGenreList(movies) {
     let allGenres = [`All genres`];
@@ -20,14 +20,6 @@ const GenreList = ({films, genre, changeGenreAction, getFilmListOfGenreAction}) 
     e.preventDefault();
     changeGenreAction(e.target.text);
   }
-
-  function changeFilmListOfGenre(array, value) {
-    return array.filter((item)=>item.genre === value);
-  }
-
-  getFilmListOfGenreAction(changeFilmListOfGenre(films, genre));
-
-
   return (
     <ul className="catalog__genres-list">
 
@@ -53,9 +45,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   changeGenreAction(value) {
     dispatch(changeGenre(value));
-  },
-  getFilmListOfGenreAction(value) {
-    dispatch(getFilmListOfGenre(value));
   }
 });
 
