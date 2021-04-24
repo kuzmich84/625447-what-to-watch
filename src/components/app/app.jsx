@@ -14,7 +14,6 @@ import browserHistory from "../../browser-history";
 
 
 const App = ({films}) => {
-
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
