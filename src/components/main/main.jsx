@@ -63,10 +63,7 @@ export default connect(mapStateToProps)(withActiveShowMore(Main));
 
 
 Main.propTypes = {
-  title: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
-  genrePromo: PropTypes.string.isRequired,
-  date: PropTypes.number.isRequired,
   filmsOfGenre: PropTypes.arrayOf(PropTypes.object),
   films: PropTypes.arrayOf(PropTypes.object),
   handlerClickButton: PropTypes.func.isRequired,

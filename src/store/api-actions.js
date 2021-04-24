@@ -1,4 +1,17 @@
-import {loadFilm, loadFilmList, loadPromoFilm, loadReviews, redirectToRoute, requireAuthorization, setErrorReviews, setIsLoading, setIsLoadingReview, setIsSendReview} from "./action";
+import {
+  loadAvatar,
+  loadEmail,
+  loadFilm,
+  loadFilmList,
+  loadPromoFilm,
+  loadReviews,
+  redirectToRoute,
+  requireAuthorization,
+  setErrorReviews,
+  setIsLoading,
+  setIsLoadingReview,
+  setIsSendReview
+} from "./action";
 import {AuthorisationStatus} from "../const";
 import camelcaseKeys from "camelcase-keys";
 
@@ -21,6 +34,14 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
     .then(() => dispatch(requireAuthorization(AuthorisationStatus.AUTH)))
     .then(() => dispatch(redirectToRoute(`/`)))
 );
+
+export const fetchLogin = () => (dispatch, _getState, api) => {
+  api.get(`/login`)
+    .then(({data}) => {
+      dispatch(loadEmail(data.email));
+      dispatch(loadAvatar(data.avatar_url));
+    });
+};
 
 export const fetchPromoFilm = () => (dispatch, _getState, api) => {
   api.get(`films/promo`)

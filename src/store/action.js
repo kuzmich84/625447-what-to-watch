@@ -12,6 +12,8 @@ export const ActionType = {
   SET_IS_LOADING_REVIEW: `SET_IS_LOADING_REVIEW`,
   SET_IS_SEND_REVIEW: `SET_IS_SEND_REVIEW`,
   SET_ERROR_REVIEWS: `GET_ERROR_REVIEWS`,
+  LOAD_EMAIL: `GET_EMAIL`,
+  LOAD_AVATAR: `LOAD_AVATAR`,
 };
 
 export const loadFilmList = (data) => ({
@@ -75,4 +77,14 @@ export const setIsSendReview = (bool) => ({
 export const setErrorReviews = (bool) => ({
   type: ActionType.SET_ERROR_REVIEWS,
   payload: bool,
+});
+
+export const loadEmail = (email) => ({
+  type: ActionType.LOAD_EMAIL,
+  payload: email,
+});
+
+export const loadAvatar = (avatar) => ({
+  type: ActionType.LOAD_AVATAR,
+  payload: avatar,
 });
