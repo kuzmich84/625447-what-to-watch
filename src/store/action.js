@@ -14,6 +14,7 @@ export const ActionType = {
   SET_ERROR_REVIEWS: `GET_ERROR_REVIEWS`,
   LOAD_EMAIL: `GET_EMAIL`,
   LOAD_AVATAR: `LOAD_AVATAR`,
+  LOAD_FAVORITE: `LOAD_FAVORITE`,
 };
 
 export const loadFilmList = (data) => ({
@@ -88,3 +89,9 @@ export const loadAvatar = (avatar) => ({
   type: ActionType.LOAD_AVATAR,
   payload: avatar,
 });
+
+export const loadFavorite = (favorites) => ({
+  type: ActionType.LOAD_FAVORITE,
+  payload: favorites,
+});
+

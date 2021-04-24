@@ -11,11 +11,16 @@ import MainVideoPlayer from "../main-videoplayer/main-videoplayer";
 import {showVideoPage} from "../../store/action";
 import {connect} from "react-redux";
 import {getFilm, getIsLoading, getIsVideoPlayer} from "../../store/selectors";
-import {fetchFilm} from "../../store/api-actions";
+import {postFavorite} from "../../store/api-actions";
+import Header from "../header/header";
+import AddMyList from "../add-my-list/add-my-list";
+import AddMyListContainer from "../add-my-list/add-my-list-container";
 
-const Film = ({film, films, isActive, handlerTabOpen, isVideoPlayer, showVideoPageAction, isLoading, loadFilmServer, filmId}) => {
-  const {backgroundImage, name, genre, released, posterImage, id} = film;
+const Film = ({film, films, isActive, handlerTabOpen, isVideoPlayer, showVideoPageAction, isLoading, filmId, postFilmFavorite}) => {
+  const {backgroundImage, name, genre, released, posterImage, id, isFavorite} = film;
   const likeGenreFilms = films.filter((itemFilm) => itemFilm.genre === genre && itemFilm.id !== id).slice(0, 3);
+
+
 
   if (isLoading) {
     return <p>Loading....</p>;
@@ -30,21 +35,7 @@ const Film = ({film, films, isActive, handlerTabOpen, isVideoPlayer, showVideoPa
 
             <h1 className="visually-hidden">WTW</h1>
 
-            <header className="page-header movie-card__head">
-              <div className="logo">
-                <a href="main.html" className="logo__link">
-                  <span className="logo__letter logo__letter--1">W</span>
-                  <span className="logo__letter logo__letter--2">T</span>
-                  <span className="logo__letter logo__letter--3">W</span>
-                </a>
-              </div>
-
-              <div className="user-block">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-                </div>
-              </div>
-            </header>
+            <Header/>
 
             <div className="movie-card__wrap">
               <div className="movie-card__desc">
@@ -61,12 +52,7 @@ const Film = ({film, films, isActive, handlerTabOpen, isVideoPlayer, showVideoPa
                     </svg>
                     <span>Play</span>
                   </button>
-                  <button className="btn btn--list movie-card__button" type="button">
-                    <svg viewBox="0 0 19 20" width="19" height="20">
-                      <use xlinkHref="#add"/>
-                    </svg>
-                    <span>My list</span>
-                  </button>
+                  <AddMyListContainer isFavorite={isFavorite} filmId={Number(filmId)} postFilmFavorite={postFilmFavorite}/>
                   <Link to={`/films/${id}/review`} className="btn movie-card__button">Add review</Link>
                 </div>
               </div>
@@ -81,11 +67,11 @@ const Film = ({film, films, isActive, handlerTabOpen, isVideoPlayer, showVideoPa
 
               <div className="movie-card__desc">
                 <nav className="movie-nav movie-card__nav">
-                  <Tabs handlerTabOpen={handlerTabOpen} isActive={isActive} filmId={Number(filmId)} />
+                  <Tabs handlerTabOpen={handlerTabOpen} isActive={isActive} filmId={Number(filmId)}/>
                 </nav>
                 {isActive === 0 && <Overview film={film}/>}
                 {isActive === 1 && <Details film={film}/>}
-                {isActive === 2 && <Reviews filmId={filmId} />}
+                {isActive === 2 && <Reviews filmId={filmId}/>}
               </div>
             </div>
           </div>
@@ -130,8 +116,8 @@ const mapDispatchToProps = (dispatch) => ({
   showVideoPageAction(value) {
     dispatch(showVideoPage(value));
   },
-  loadFilmServer(filmId) {
-    dispatch(fetchFilm(filmId));
+  postFilmFavorite(filmId, status) {
+    dispatch(postFavorite(filmId, status));
   }
 });
 

@@ -8,7 +8,7 @@ import thunk from "redux-thunk";
 import {createAPI} from "./sevices/api";
 import {requireAuthorization} from "./store/action";
 import {AuthorisationStatus} from "./const";
-import {checkAuth, fetchFilmList, fetchLogin, fetchPromoFilm} from "./store/api-actions";
+import {checkAuth, fetchFavorite, fetchFilmList, fetchLogin, fetchPromoFilm} from "./store/api-actions";
 
 import {composeWithDevTools} from "redux-devtools-extension";
 import {redirect} from "./store/middlewares/redirect";
@@ -30,6 +30,7 @@ Promise.all([
   store.dispatch(fetchFilmList()),
   store.dispatch(checkAuth()),
   store.dispatch(fetchPromoFilm()),
+  store.dispatch(fetchFavorite()),
 
 ]
 ).then(() => {

@@ -1,11 +1,11 @@
 import React from "react";
-import {getAuthorisationStatus, getAvavtar} from "../../store/selectors";
+import {getAuthorisationStatus, getAvatar} from "../../store/selectors";
 import {connect} from "react-redux";
 import {AuthorisationStatus} from "../../const";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
-const Header = ({authorisationStatus, avatar}) => {
+const Header = ({authorisationStatus, avatar, children}) => {
 
   return (
     <header className="page-header movie-card__head">
@@ -16,11 +16,13 @@ const Header = ({authorisationStatus, avatar}) => {
           <span className="logo__letter logo__letter--3">W</span>
         </a>
       </div>
-
+      {children}
       <div className="user-block">
         {authorisationStatus === AuthorisationStatus.AUTH
-          ? <div className="user-block__avatar">
-            <img src={avatar} alt="User avatar" width="63" height="63"/>
+          ? <div className="user-block__avatar" >
+            <Link to="/mylist">
+              <img src={avatar} alt="User avatar" width="63" height="63"/>
+            </Link>
           </div>
           : <Link to="/login" className="page-title">Sign in</Link>
         }
@@ -32,7 +34,7 @@ const Header = ({authorisationStatus, avatar}) => {
 
 const mapStateToProps = (state) => ({
   authorisationStatus: getAuthorisationStatus(state),
-  avatar: getAvavtar(state),
+  avatar: getAvatar(state),
 });
 
 export default connect(mapStateToProps)(Header);

@@ -1,6 +1,6 @@
 import {
   loadAvatar,
-  loadEmail,
+  loadEmail, loadFavorite,
   loadFilm,
   loadFilmList,
   loadPromoFilm,
@@ -74,3 +74,16 @@ export const commentPost = (filmId, {comment, rating}) => (dispatch, _getState, 
       dispatch(setErrorReviews(response.status));
     })
 );
+
+export const fetchFavorite = () => (dispatch, _getState, api) => (
+  api.get(`favorite`)
+    .then(({data}) => dispatch(loadFavorite(camelcaseKeys(data))))
+);
+
+export const postFavorite = (filmId, status) => (dispatch, _getState, api) => (
+  api.post(`favorite/${filmId}/${status}`)
+    .then(() => dispatch(fetchFilm(filmId)))
+    .then(() => dispatch(fetchFavorite()))
+    .then(()=>dispatch(fetchPromoFilm()))
+);
+
