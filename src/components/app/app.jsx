@@ -11,7 +11,6 @@ import {connect} from "react-redux";
 import {getFilms, getIsVideoPlayer} from "../../store/selectors";
 import PrivateRoute from "../private-root/private-root";
 import browserHistory from "../../browser-history";
-import TestRenderer from 'react-test-renderer';
 
 
 const App = ({films}) => {
