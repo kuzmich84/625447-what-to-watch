@@ -66,6 +66,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(postFavorite(filmId, status));
   }
 });
+export {PromoFilm};
 export default connect(mapStateToProps, mapDispatchToProps)(PromoFilm);
 
 PromoFilm.propTypes = {

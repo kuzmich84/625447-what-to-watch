@@ -40,6 +40,7 @@ const mapStateToProps = (state) => ({
   isLoadingReviews: getIsLoadingReviews(state),
 });
 
+export {Reviews};
 export default connect(mapStateToProps)(Reviews);
 
 Reviews.propTypes = {

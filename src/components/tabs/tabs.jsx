@@ -13,7 +13,7 @@ const Tabs = (props) => {
         return (
           <li
             key={i}
-            className={`movie-nav__item  ${i === isActive ? `movie-nav__item--active` : ``}`}
+            className={`movie-nav__item  ${i === isActive ? `movie-nav__item--active` : ``} clicks-${i}`}
           >
             <a href="#" className="movie-nav__link" onClick={(e) => {
               e.preventDefault();
@@ -35,6 +35,8 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
+
+export {Tabs};
 export default connect(null, mapDispatchToProps)(Tabs);
 
 Tabs.propTypes = {

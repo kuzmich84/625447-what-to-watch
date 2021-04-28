@@ -1,4 +1,4 @@
-import React, {createRef} from "react";
+import React from "react";
 import {connect} from "react-redux";
 import {showVideoPage} from "../../store/action";
 import PropTypes from "prop-types";
@@ -8,63 +8,21 @@ import {getIsVideoPlayer} from "../../store/selectors";
 
 
 const MainVideoPlayer = ({
-  showVideoPageAction, film, isVideoPlayer, handleButtonClick, isPlaying,
-  handleCurrentTimeChange, currentTimeFilm, durationFilm, handleFilmDuration, handleFilmBuffer, buffered
+  showVideoPageAction, film, isVideoPlayer, isPlaying, currentTimeFilm, durationFilm, buffered, children,
+  handlePauseClick, handlePlayClick, openFullScreen,
 
 }) => {
-  const {videoLink, previewImage, name} = film;
-  const videoRef = createRef();
-
+  const {name} = film;
 
   function handleHidePlayer() {
     handlePauseClick();
     showVideoPageAction(!isVideoPlayer);
   }
 
-  function handlePlayClick() {
-    const video = videoRef.current;
-    video.play();
-    handleButtonClick();
-    getCurrentTimeFilm();
-
-  }
-
-  function handlePauseClick() {
-    const video = videoRef.current;
-    video.pause();
-    handleButtonClick();
-  }
-
-  function getCurrentTimeFilm() {
-    const video = videoRef.current;
-    video.addEventListener(`timeupdate`, function () {
-      handleCurrentTimeChange(video.currentTime);
-    }, false);
-
-
-    video.addEventListener(`progress`, function () {
-      for (let i = 0; i < video.buffered.length; i++) {
-        handleFilmBuffer(video.buffered.start(i) / video.duration, video.buffered.end(i) / video.duration);
-      }
-    }, false);
-    getFilmDuration();
-  }
-
-
-  function getFilmDuration() {
-    const video = videoRef.current;
-    handleFilmDuration(video.duration);
-  }
-
-  function openFullScreen() {
-    const video = videoRef.current;
-    video.requestFullscreen();
-  }
-
 
   return (
     <div className="player">
-      <video ref={videoRef} src={videoLink} className="player__video" poster={previewImage}/>
+      {children}
 
       <button type="button" className="player__exit" onClick={handleHidePlayer}>Exit</button>
 
@@ -122,12 +80,12 @@ MainVideoPlayer.propTypes = {
   showVideoPageAction: PropTypes.func.isRequired,
   film: PropTypes.object.isRequired,
   isVideoPlayer: PropTypes.bool.isRequired,
-  handleButtonClick: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,
-  handleCurrentTimeChange: PropTypes.func.isRequired,
   currentTimeFilm: PropTypes.number.isRequired,
   durationFilm: PropTypes.number.isRequired,
-  handleFilmDuration: PropTypes.func.isRequired,
-  handleFilmBuffer: PropTypes.func.isRequired,
   buffered: PropTypes.array.isRequired,
+  children: PropTypes.object.isRequired,
+  handlePauseClick: PropTypes.func.isRequired,
+  handlePlayClick: PropTypes.func.isRequired,
+  openFullScreen: PropTypes.func.isRequired,
 };

@@ -15,19 +15,19 @@ import {
 import {AuthorisationStatus} from "../const";
 import camelcaseKeys from "camelcase-keys";
 
-export const fetchFilmList = () => (dispatch, _getState, api) => {
+export const fetchFilmList = () => (dispatch, _getState, api) => (
   api.get(`/films`)
-    .then(({data}) => dispatch(loadFilmList(camelcaseKeys(data))));
-};
+    .then(({data}) => dispatch(loadFilmList(camelcaseKeys(data))))
+);
 
-export const checkAuth = () => (dispatch, _getState, api) => {
+export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(`/login`)
     .then(() => dispatch(requireAuthorization(AuthorisationStatus.AUTH)))
     .then(() => dispatch(redirectToRoute(`/`)))
     .catch((err) => {
       throw err;
-    });
-};
+    })
+);
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
   api.post(`login`, {email, password})
@@ -35,18 +35,19 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
     .then(() => dispatch(redirectToRoute(`/`)))
 );
 
-export const fetchLogin = () => (dispatch, _getState, api) => {
+export const fetchLogin = () => (dispatch, _getState, api) => (
   api.get(`/login`)
     .then(({data}) => {
       dispatch(loadEmail(data.email));
       dispatch(loadAvatar(data.avatar_url));
-    });
-};
+    })
+);
 
-export const fetchPromoFilm = () => (dispatch, _getState, api) => {
+export const fetchPromoFilm = () => (dispatch, _getState, api) => (
   api.get(`films/promo`)
-    .then(({data}) => dispatch(loadPromoFilm(camelcaseKeys(data))));
-};
+    .then(({data}) => dispatch(loadPromoFilm(camelcaseKeys(data))))
+);
+
 export const fetchFilm = (filmId) => (dispatch, _getState, api) => (
   api.get(`films/${filmId}`)
     .then(({data}) => {
