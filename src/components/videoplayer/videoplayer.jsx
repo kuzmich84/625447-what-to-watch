@@ -71,6 +71,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchFilm(filmId));
   }
 });
+export {VideoPlayer};
 export default connect(null, mapDispatchToProps)(VideoPlayer);
 
 

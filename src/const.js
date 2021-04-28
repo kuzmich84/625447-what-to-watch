@@ -8,4 +8,5 @@ export const AuthorisationStatus = {
 export const HeaderOfPage = {
   MAIN: `movie-card__head`,
   MY_LIST: `user-page__head`,
+  SIGN_IN: `sign-in`,
 };
