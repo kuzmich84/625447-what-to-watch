@@ -96,8 +96,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(withAddReview(AddRev
 AddReview.propTypes = {
   film: PropTypes.object.isRequired,
   onSubmitComment: PropTypes.func.isRequired,
-  filmId: PropTypes.string.isRequired,
   isSendReview: PropTypes.bool.isRequired,
   error: PropTypes.number,
   onSetIsSendReview: PropTypes.func.isRequired,
+  handleSubmitComment: PropTypes.func.isRequired,
+  handleChangeRating: PropTypes.func.isRequired,
+  handleChangeReview: PropTypes.func.isRequired,
+  review: PropTypes.string.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 };
