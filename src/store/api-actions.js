@@ -16,14 +16,17 @@ import {AuthorisationStatus} from "../const";
 import camelcaseKeys from "camelcase-keys";
 
 export const fetchFilmList = () => (dispatch, _getState, api) => (
-  api.get(`/films`)
+  api.get(`films`)
     .then(({data}) => dispatch(loadFilmList(camelcaseKeys(data))))
+    .catch((err) => {
+      throw err;
+    })
 );
 
 export const checkAuth = () => (dispatch, _getState, api) => (
-  api.get(`/login`)
+  api.get(`login`)
     .then(() => dispatch(requireAuthorization(AuthorisationStatus.AUTH)))
-    .then(() => dispatch(redirectToRoute(`/`)))
+    // .then(() => dispatch(redirectToRoute(`/`)))
     .catch((err) => {
       throw err;
     })
@@ -32,20 +35,30 @@ export const checkAuth = () => (dispatch, _getState, api) => (
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
   api.post(`login`, {email, password})
     .then(() => dispatch(requireAuthorization(AuthorisationStatus.AUTH)))
+    .then(() => dispatch(fetchLogin()))
     .then(() => dispatch(redirectToRoute(`/`)))
+    .catch((err) => {
+      throw err;
+    })
 );
 
 export const fetchLogin = () => (dispatch, _getState, api) => (
-  api.get(`/login`)
+  api.get(`login`)
     .then(({data}) => {
       dispatch(loadEmail(data.email));
       dispatch(loadAvatar(data.avatar_url));
+    })
+    .catch((err) => {
+      throw err;
     })
 );
 
 export const fetchPromoFilm = () => (dispatch, _getState, api) => (
   api.get(`films/promo`)
     .then(({data}) => dispatch(loadPromoFilm(camelcaseKeys(data))))
+    .catch((err) => {
+      throw err;
+    })
 );
 
 export const fetchFilm = (filmId) => (dispatch, _getState, api) => (
@@ -54,6 +67,9 @@ export const fetchFilm = (filmId) => (dispatch, _getState, api) => (
       dispatch(loadFilm(camelcaseKeys(data, {deep: true})));
     })
     .then(() => dispatch(setIsLoading(false)))
+    .catch((err) => {
+      throw err;
+    })
   // .then(() => dispatch(activeId(parseInt(offerId, 10))))
   // })
 );
@@ -63,6 +79,9 @@ export const fetchFilmReviews = (filmId) => (dispatch, _getState, api) => (
   api.get(`comments/${filmId}`)
     .then(({data}) => dispatch(loadReviews((camelcaseKeys(data, {deep: true})))))
     .then(() => dispatch(setIsLoadingReview(false)))
+    .catch((err) => {
+      throw err;
+    })
 );
 
 export const commentPost = (filmId, {comment, rating}) => (dispatch, _getState, api) => (
@@ -79,6 +98,9 @@ export const commentPost = (filmId, {comment, rating}) => (dispatch, _getState, 
 export const fetchFavorite = () => (dispatch, _getState, api) => (
   api.get(`favorite`)
     .then(({data}) => dispatch(loadFavorite(camelcaseKeys(data))))
+    .catch((err) => {
+      throw err;
+    })
 );
 
 export const postFavorite = (filmId, status) => (dispatch, _getState, api) => (
@@ -86,5 +108,8 @@ export const postFavorite = (filmId, status) => (dispatch, _getState, api) => (
     .then(() => dispatch(fetchFilm(filmId)))
     .then(() => dispatch(fetchFavorite()))
     .then(()=>dispatch(fetchPromoFilm()))
+    .catch((err) => {
+      throw err;
+    })
 );
 

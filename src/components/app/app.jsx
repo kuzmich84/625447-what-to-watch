@@ -17,6 +17,12 @@ const App = ({films}) => {
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
+        <Route exact path="/" render={() => {
+          return (
+            <Main />
+          );
+        }}
+        />
         <Route exact path="/login" component={SignIn}/>
         <PrivateRoute
           exact
@@ -24,12 +30,6 @@ const App = ({films}) => {
           render={() => {
             return <MyList/>;
           }}
-        />
-        <Route exact path="/" render={() => {
-          return (
-            <Main />
-          );
-        }}
         />
         <Route exact path="/films/:id" render={({match}) => {
           const {id} = match.params;
