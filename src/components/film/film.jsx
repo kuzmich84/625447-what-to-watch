@@ -10,12 +10,13 @@ import withActiveTab from "../../hocs/withActiveTab";
 import MainVideoPlayer from "../main-videoplayer/main-videoplayer";
 import {showVideoPage} from "../../store/action";
 import {connect} from "react-redux";
-import {getFilm, getIsLoading, getIsVideoPlayer} from "../../store/selectors";
+import {getAuthorisationStatus, getFilm, getIsLoading, getIsVideoPlayer} from "../../store/selectors";
 import {postFavorite} from "../../store/api-actions";
 import Header from "../header/header";
 import AddMyListContainer from "../add-my-list/add-my-list-container";
+import {AuthorisationStatus} from "../../const";
 
-const Film = ({film, films, isActive, handlerTabOpen, isVideoPlayer, showVideoPageAction, isLoading, filmId, postFilmFavorite}) => {
+const Film = ({film, films, isActive, handlerTabOpen, isVideoPlayer, showVideoPageAction, isLoading, filmId, postFilmFavorite, authorisationStatus}) => {
   const {backgroundImage, name, genre, released, posterImage, id, isFavorite} = film;
   const likeGenreFilms = films.filter((itemFilm) => itemFilm.genre === genre && itemFilm.id !== id).slice(0, 3);
 
@@ -49,8 +50,8 @@ const Film = ({film, films, isActive, handlerTabOpen, isVideoPlayer, showVideoPa
                     </svg>
                     <span>Play</span>
                   </button>
-                  <AddMyListContainer isFavorite={isFavorite} filmId={Number(filmId)} postFilmFavorite={postFilmFavorite}/>
-                  <Link to={`/films/${id}/review`} className="btn movie-card__button">Add review</Link>
+                  {authorisationStatus === AuthorisationStatus.AUTH && <AddMyListContainer isFavorite={isFavorite} filmId={Number(filmId)} postFilmFavorite={postFilmFavorite}/>}
+                  {authorisationStatus === AuthorisationStatus.AUTH && <Link to={`/films/${id}/review`} className="btn movie-card__button">Add review</Link>}
                 </div>
               </div>
             </div>
@@ -107,6 +108,7 @@ const mapStateToProps = (state) => ({
   isVideoPlayer: getIsVideoPlayer(state),
   film: getFilm(state),
   isLoading: getIsLoading(state),
+  authorisationStatus: getAuthorisationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -129,4 +131,5 @@ Film.propTypes = {
   handlerTabOpen: PropTypes.func.isRequired,
   isVideoPlayer: PropTypes.bool.isRequired,
   showVideoPageAction: PropTypes.func.isRequired,
+  authorisationStatus: PropTypes.string.isRequired,
 };
