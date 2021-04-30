@@ -1,13 +1,14 @@
 import React from "react";
 import Header from "../header/header";
-import {getPromoFilm} from "../../store/selectors";
+import {getAuthorisationStatus, getPromoFilm} from "../../store/selectors"
 import {connect} from "react-redux";
 import {showVideoPage} from "../../store/action";
 import PropTypes from "prop-types";
 import AddMyListContainer from "../add-my-list/add-my-list-container";
 import {postFavorite} from "../../store/api-actions";
+import {AuthorisationStatus} from "../../const"
 
-const PromoFilm = ({promo, showVideoPageAction, postFilmFavorite}) => {
+const PromoFilm = ({promo, showVideoPageAction, postFilmFavorite, authorizationStatus}) => {
   const {name, genre, released, backgroundImage, posterImage, isFavorite, id} = promo;
 
   function handlerShowVideoPage() {
@@ -45,7 +46,7 @@ const PromoFilm = ({promo, showVideoPageAction, postFilmFavorite}) => {
                 </svg>
                 <span>Play</span>
               </button>
-              <AddMyListContainer filmId={id} isFavorite={isFavorite} postFilmFavorite={postFilmFavorite}/>
+              {authorizationStatus === AuthorisationStatus.AUTH && <AddMyListContainer filmId={id} isFavorite={isFavorite} postFilmFavorite={postFilmFavorite}/> }
             </div>
           </div>
         </div>
@@ -56,6 +57,7 @@ const PromoFilm = ({promo, showVideoPageAction, postFilmFavorite}) => {
 
 const mapStateToProps = (state) => ({
   promo: getPromoFilm(state),
+  authorizationStatus: getAuthorisationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
