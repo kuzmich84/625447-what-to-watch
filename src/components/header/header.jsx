@@ -4,9 +4,10 @@ import {connect} from "react-redux";
 import {AuthorisationStatus, HeaderOfPage} from "../../const";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
+import {fetchFavorite} from "../../store/api-actions";
 
 const Header = (props) => {
-  const {authorisationStatus, avatar, page} = props;
+  const {authorisationStatus, avatar, page, onLoadFavorite} = props;
   return (
     <header className={`page-header ${page === `main` ? HeaderOfPage.MAIN : HeaderOfPage.MY_LIST}`}>
       <div className="logo">
@@ -20,7 +21,7 @@ const Header = (props) => {
       <div className="user-block">
         {authorisationStatus === AuthorisationStatus.AUTH
           ? <div className="user-block__avatar">
-            <Link to={`/mylist`}>
+            <Link to={`/mylist`} onClick={onLoadFavorite}>
               <img src={avatar} alt="User avatar" width="63" height="63"/>
             </Link>
           </div>
@@ -36,13 +37,20 @@ const mapStateToProps = (state) => ({
   avatar: getAvatar(state),
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  onLoadFavorite() {
+    dispatch(fetchFavorite());
+  }
+});
+
 export {Header};
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
 
 Header.propTypes = {
-  authorisationStatus: PropTypes.string.isRequired,
+  authorisationStatus: PropTypes.string,
   avatar: PropTypes.string,
   children: PropTypes.object,
   page: PropTypes.string,
+  onLoadFavorite: PropTypes.func,
 };
