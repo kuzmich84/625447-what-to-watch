@@ -8,7 +8,7 @@ import Header from "../header/header";
 import {Link} from "react-router-dom";
 import withAddReview from "../../hocs/withAddReview";
 
-const AddReview = ({film, handleSubmitComment, handleChangeRating, isSendReview, handleChangeReview, review, isDisabled}) => {
+const AddReview = ({film, handleSubmitComment, handleChangeRating, isSendReview, handleChangeReview, review, isDisabled, error}) => {
   const {backgroundImage, id, name, posterImage} = film;
 
   return (

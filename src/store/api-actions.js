@@ -66,7 +66,7 @@ export const fetchFilmReviews = (filmId) => (dispatch, _getState, api) => (
 );
 
 export const commentPost = (filmId, {comment, rating}) => (dispatch, _getState, api) => (
-  api.post(`comments/${filmId}`, {comment, rating})
+  api.post(`comment/${filmId}`, {comment, rating})
     .then(() => dispatch(setIsSendReview(true)))
     .then(() => dispatch(fetchFilmReviews(filmId)))
     .then(() => dispatch(setIsSendReview(false)))

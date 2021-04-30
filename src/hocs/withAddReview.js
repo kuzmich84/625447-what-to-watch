@@ -1,84 +1,82 @@
-import React, {PureComponent} from "react";
+import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
+import {extend} from "../utils";
 
 const withAddReview = (Component) => {
-  class WithAddReview extends PureComponent {
-    constructor(props) {
-      super(props);
-      this.state = {
-        rating: 5,
-        review: ``,
-        isDisabled: true,
-      };
-      this._handleChangeReview = this._handleChangeReview.bind(this);
-      this._handleChangeRating = this._handleChangeRating.bind(this);
-      this._validation = this._validation.bind(this);
-      this._handleSubmitComment = this._handleSubmitComment.bind(this);
-    }
+  const withAddReviewOnHook = (props) => {
+    const {isSendReview, error, onSubmitComment, filmId, onSetIsSendReview} = props;
+    const [stateReview, setReviewState] = useState({
+      rating: 5,
+      review: ``,
+      isDisabled: true,
+    });
 
+    const {rating, review, isDisabled} = stateReview;
 
-    componentDidUpdate(prevProps) {
-      const {isSendReview, error} = this.props;
-      if (isSendReview !== prevProps.isSendReview && !error) {
-        this.setState({
+    useEffect(() => {
+      if (error === null) {
+        setReviewState(extend(stateReview, {
           rating: 5,
           review: ``,
-        });
+        }));
       }
-    }
 
-    _handleChangeReview(evt) {
-      this.setState({review: evt.target.value}, this._validation);
-    }
+    }, [isSendReview]);
 
-    _handleChangeRating(evt) {
-      this.setState({rating: +evt.target.value}, this._validation);
-    }
+    useEffect(() => {
+      validation();
+    }, [review, rating]);
 
-    _validation() {
-      if (this.state.review.length >= 50 && this.state.review.length < 400) {
-        this.setState({isDisabled: false});
+    const handleChangeReview = (evt) => {
+      setReviewState(extend(stateReview,
+          {review: evt.target.value}));
+    };
+
+    const handleChangeRating = (evt) => {
+      setReviewState(extend(stateReview, {rating: +evt.target.value}));
+    };
+
+    const validation = () => {
+      if (review.length >= 50 && review.length < 400) {
+        setReviewState(extend(stateReview, {isDisabled: false}));
       } else {
-        this.setState({isDisabled: true});
+        setReviewState(extend(stateReview, {isDisabled: true}));
       }
-    }
+    };
 
-    _handleSubmitComment(e) {
+    const handleSubmitComment = (e) => {
       e.preventDefault();
-      const {onSubmitComment, filmId, onSetIsSendReview} = this.props;
       onSetIsSendReview(true);
       onSubmitComment(filmId, {
-        comment: this.state.review,
-        rating: this.state.rating,
+        comment: review,
+        rating,
       });
-    }
+    };
 
-    render() {
-      return (
-        <Component
-          {...this.props}
-          handleSubmitComment={this._handleSubmitComment}
-          handleChangeRating={this._handleChangeRating}
-          handleChangeReview={this._handleChangeReview}
-          review={this.state.review}
-          isDisabled={this.state.isDisabled}
+    return (
+      <Component
+        {...props}
+        handleSubmitComment={handleSubmitComment}
+        handleChangeRating={handleChangeRating}
+        handleChangeReview={handleChangeReview}
+        review={review}
+        isDisabled={isDisabled}
+      />
+    );
 
 
-        />
-      );
-    }
-  }
+  };
 
-  WithAddReview.propTypes = {
+
+  withAddReviewOnHook.propTypes = {
     onSubmitComment: PropTypes.func.isRequired,
     onSetIsSendReview: PropTypes.func.isRequired,
     filmId: PropTypes.string.isRequired,
     isSendReview: PropTypes.bool.isRequired,
     error: PropTypes.number,
-
   };
 
-  return WithAddReview;
+  return withAddReviewOnHook;
 
 };
 
