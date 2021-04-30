@@ -75,4 +75,5 @@ PromoFilm.propTypes = {
   promo: PropTypes.object.isRequired,
   showVideoPageAction: PropTypes.func.isRequired,
   postFilmFavorite: PropTypes.func.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
 };
