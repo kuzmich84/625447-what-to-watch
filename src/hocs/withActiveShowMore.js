@@ -1,38 +1,27 @@
-import React, {PureComponent} from "react";
+import React, {useEffect, useState} from "react";
 
 const withActiveShowMore = (Component) => {
-  class WithActiveShowMore extends PureComponent {
-    constructor(props) {
-      super(props);
-      this.state = {
-        number: 8,
+
+  const WithActiveShowMore = (props) => {
+
+    const [number, setNumber] = useState(8);
+
+    useEffect(() => {
+      return () => {
+        setNumber(8);
       };
+    }, []);
 
-      this._handlerClickButton = this._handlerClickButton.bind(this);
-    }
+    const handlerClickButton = () => {
+      setNumber((prevState) => prevState + 8);
+    };
 
-    _handlerClickButton() {
-      this.setState(() => ({
-        number: this.state.number + 8
-      }));
-    }
-
-    componentWillUnmount() {
-      this.setState(() => ({
-        number: 8,
-      }));
-    }
-
-    render() {
-      return <Component
-        {...this.props}
-        number={this.state.number}
-        handlerClickButton={this._handlerClickButton}
-
-      />;
-    }
-
-  }
+    return <Component
+      {...props}
+      number={number}
+      handlerClickButton={handlerClickButton}
+    />;
+  };
 
   return WithActiveShowMore;
 };

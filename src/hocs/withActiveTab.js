@@ -1,35 +1,21 @@
-import React, {PureComponent} from "react";
+import React, {useState} from "react";
 
 const withActiveTab = (Component) => {
-  class WithActiveTab extends PureComponent {
-    constructor(props) {
-      super(props);
-      this.state = {
-        isActive: 0,
-      };
+  const WithActiveTab = (props) => {
 
-      this._handlerTabOpen = this._handlerTabOpen.bind(this);
-    }
+    const [isActive, setIsActive] = useState(0);
 
-    _handlerTabOpen(i) {
-      this.setState(() => ({
-        isActive: +i
-      }));
-    }
-
-    render() {
-
-      return <Component
-        {...this.props}
-        handlerTabOpen={this._handlerTabOpen}
-        isActive={this.state.isActive}
-      />;
-
-    }
-  }
+    const handlerTabOpen = (i) => {
+      setIsActive(+i);
+    };
+    return <Component
+      {...props}
+      handlerTabOpen={handlerTabOpen}
+      isActive={isActive}
+    />;
+  };
 
   return WithActiveTab;
-
 };
 
 export default withActiveTab;

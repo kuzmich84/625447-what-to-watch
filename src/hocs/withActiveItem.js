@@ -1,50 +1,43 @@
-import React, {PureComponent} from "react";
+import React, {useState} from "react";
+import {extend} from "../utils";
 
 
 const withActiveItem = (Component) => {
-  class WithActiveItem extends PureComponent {
-    constructor(props) {
-      super(props);
-      this.state = {
-        film: {},
-        isPlaying: false,
-        activePlayer: -1,
-      };
-      this._handlerMouseOverCard = this._handlerMouseOverCard.bind(this);
-      this._handlerMouseOutCard = this._handlerMouseOutCard.bind(this);
-    }
+  const WithActiveItem = (props) => {
 
-    _handlerMouseOverCard(film, i) {
-      this.setState(() => ({
+    const initialState = {
+      film: {},
+      isPlaying: false,
+      activePlayer: -1,
+    };
+
+    const [state, setState] = useState(initialState);
+
+    const {activePlayer} = state;
+
+    const handlerMouseOverCard = (film, i) => {
+      setState(extend(state, {
         film,
         isPlaying: true,
         activePlayer: i
       }));
-    }
+    };
 
-    _handlerMouseOutCard() {
-      this.setState(() => ({
-        film: {},
-        isPlaying: false,
-        activePlayer: -1
-      }));
-    }
+    const handlerMouseOutCard = () => {
+      setState(extend(state, initialState));
+    };
 
-    render() {
-      const {activePlayer} = this.state;
+    return (
+      <Component
+        {...props}
+        activePlayer={activePlayer}
+        handlerMouseOverCard={handlerMouseOverCard}
+        handlerMouseOutCard={handlerMouseOutCard}
+      />
+    );
 
-      return (
-        <Component
-          {...this.props}
-          activePlayer={activePlayer}
-          handlerMouseOverCard={this._handlerMouseOverCard}
-          handlerMouseOutCard={this._handlerMouseOutCard}
-        />
-      );
-    }
 
-  }
-
+  };
   return WithActiveItem;
 };
 
