@@ -18,8 +18,6 @@ const MainVideoPlayer = ({
     handlePauseClick();
     showVideoPageAction(!isVideoPlayer);
   }
-
-
   return (
     <div className="player">
       {children}
