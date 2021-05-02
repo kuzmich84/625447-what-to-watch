@@ -21,6 +21,7 @@ const FilmsList = ({films, handlerMouseOverCard, handlerMouseOutCard, activePlay
   );
 };
 
+export {FilmsList};
 export default withActiveItem(FilmsList);
 
 FilmsList.propTypes = {

@@ -24,3 +24,12 @@ export const getFilmListOfFavoriteReselect = createSelector(getFilms, (films) =>
   return films.filter((film) => film.isFavorite);
 });
 
+export const setGenresReselect = createSelector(getFilms, (films) => {
+  let allGenres = [`All genres`];
+  const setGenreList = new Set(films.map((film) => film.genre));
+  setGenreList.forEach((item) => {
+    allGenres.push(item);
+  });
+  return allGenres;
+});
+

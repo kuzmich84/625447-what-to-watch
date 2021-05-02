@@ -15,6 +15,7 @@ import {postFavorite} from "../../store/api-actions";
 import Header from "../header/header";
 import AddMyListContainer from "../add-my-list/add-my-list-container";
 import {AuthorisationStatus} from "../../const";
+import {ScrollToTop} from "../../myHooks/scrollToTop";
 
 const Film = ({film, films, isActive, handlerTabOpen, isVideoPlayer, showVideoPageAction, isLoading, filmId, postFilmFavorite, authorisationStatus}) => {
   const {backgroundImage, name, genre, released, posterImage, id, isFavorite} = film;
@@ -96,6 +97,7 @@ const Film = ({film, films, isActive, handlerTabOpen, isVideoPlayer, showVideoPa
           </footer>
         </div>
         {isVideoPlayer ? <MainVideoPlayer film={film}/> : ``}
+        <ScrollToTop/>
       </>
     );
   }

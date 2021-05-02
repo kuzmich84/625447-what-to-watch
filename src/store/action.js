@@ -89,4 +89,3 @@ export const loadFavorite = (favorites) => ({
   type: ActionType.LOAD_FAVORITE,
   payload: favorites,
 });
-

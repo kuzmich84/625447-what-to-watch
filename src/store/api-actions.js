@@ -7,7 +7,7 @@ import {
   loadReviews,
   redirectToRoute,
   requireAuthorization,
-  setErrorReviews,
+  setErrorReviews, setGenres,
   setIsLoading,
   setIsLoadingReview,
   setIsSendReview

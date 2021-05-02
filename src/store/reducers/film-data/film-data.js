@@ -5,6 +5,7 @@ const initialState = {
   genre: `All genres`,
   films: [],
   filmsOfGenre: [],
+  genres: [],
 };
 
 export const filmData = (state = initialState, action) => {
