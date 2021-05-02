@@ -1,141 +1,155 @@
-import React, {createRef, PureComponent} from "react";
+import React, {useEffect, useReducer, useRef, useState} from "react";
 import PropTypes from "prop-types";
+import {extend} from "../utils";
+
+const initialState = {
+  currentTime: 0,
+  durationFilm: 0,
+  buffered: [0, 0],
+  isLoading: true,
+};
+
+const ActionType = {
+  SET_CURRENT_TIME: `SET_CURRENT_TIME`,
+  SET_DURATION_FILM: `SET_DURATION_FILM`,
+  SET_BUFFERED_FILM: `SET_BUFFERED_FILM`,
+  SET_IS_LOADING: `SET_IS_LOADING`
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case ActionType.SET_CURRENT_TIME:
+      return extend(state, {
+        currentTime: action.payload,
+      });
+    case ActionType.SET_DURATION_FILM:
+      return extend(state, {
+        durationFilm: action.payload,
+      });
+    case ActionType.SET_BUFFERED_FILM:
+      return extend(state, {
+        buffered: action.payload,
+      });
+    case ActionType.SET_IS_LOADING:
+      return extend(state, {
+        isLoading: action.payload,
+      });
+    default:
+      return state;
+
+  }
+};
 
 const withActivePlayer = (Component) => {
-  class WithActivePlayer extends PureComponent {
-    constructor(props) {
-      super(props);
-      this.state = {
-        isPlaying: false,
-        currentTime: 0,
-        durationFilm: 0,
-        buffered: [0, 0],
-        isLoading: true,
+
+  const WithActivePlayer = (props) => {
+
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const {currentTime, durationFilm, buffered} = state;
+    const [isPlaying, setIsPlaying] = useState(false);
+    const videoRef = useRef();
+
+    useEffect(() => {
+      const {film} = props;
+      videoRef.current.src = film.videoLink;
+      videoRef.current.poster = film.previewImage;
+
+      videoRef.current.oncanplaythrough = () => {
+        dispatch({
+          type: ActionType.SET_IS_LOADING,
+          payload: false,
+        });
       };
 
-      this.videoRef = createRef();
 
-      this._handleButtonClick = this._handleButtonClick.bind(this);
-      this._handleCurrentTimeChange = this._handleCurrentTimeChange.bind(this);
-      this._handleFilmDuration = this._handleFilmDuration.bind(this);
-      this._handleFilmBuffer = this._handleFilmBuffer.bind(this);
-      this._handlePlayClick = this._handlePlayClick.bind(this);
-      this._getCurrentTimeFilm = this._getCurrentTimeFilm.bind(this);
-      this._getFilmDuration = this._getFilmDuration.bind(this);
-      this._handlePauseClick = this._handlePauseClick.bind(this);
-      this._openFullScreen = this._openFullScreen.bind(this);
-      this._getCurrentTime = this._getCurrentTime.bind(this);
-      this._getBufferFilm = this._getBufferFilm.bind(this);
+      return () => {
+        const video = videoRef.current;
+        video.current.pause();
+        video.oncanplaythrough = null;
+        video.removeEventListener(`timeupdate`, getCurrentTime, false);
+        video.removeEventListener(`progress`, getBufferFilm, false);
+      };
+    }, [videoRef]);
 
-    }
 
-    componentDidMount() {
-      const {film} = this.props;
-      const video = this.videoRef.current;
-      video.src = film.videoLink;
-      video.poster = film.previewImage;
+    const handleButtonClick = () => {
+      setIsPlaying((prevState) => !prevState);
+      handleFilmDuration();
+    };
 
-      video.oncanplaythrough = () => this.setState({
-        isLoading: false,
+    const handleCurrentTimeChange = (time) => {
+      dispatch({
+        type: ActionType.SET_CURRENT_TIME,
+        payload: time,
       });
-    }
+    };
 
-    componentWillUnmount() {
-      const video = this.videoRef.current;
-      video.oncanplaythrough = null;
-      video.removeEventListener(`timeupdate`, this._getCurrentTime);
-      video.removeEventListener(`progress`, this._getBufferFilm);
-    }
+    const handleFilmDuration = () => {
+      dispatch({
+        type: ActionType.SET_DURATION_FILM,
+        payload: videoRef.current.duration,
+      });
+    };
 
+    const handleFilmBuffer = (startX, endX) => {
+      dispatch({
+        type: ActionType.SET_BUFFERED_FILM,
+        payload: [startX, endX]
+      });
+    };
 
-    _handleButtonClick() {
-      this.setState((state) => ({
-        isPlaying: !state.isPlaying,
-      }));
-    }
-
-    _handleCurrentTimeChange(currentTime) {
-      this.setState(() => ({
-        currentTime,
-      }));
-    }
-
-    _handleFilmDuration(durationFilm) {
-      this.setState(() => ({
-        durationFilm,
-      }));
-    }
-
-    _handleFilmBuffer(startX, endX) {
-      this.setState(() => ({
-        buffered: [startX, endX]
-      }));
-    }
-
-    _handlePlayClick() {
-      const video = this.videoRef.current;
+    const handlePlayClick = () => {
+      const video = videoRef.current;
       video.play();
-      this._handleButtonClick();
-      this._getCurrentTimeFilm();
-    }
+      handleButtonClick();
+      getCurrentTimeFilm();
+    };
 
-    _handlePauseClick() {
-      const video = this.videoRef.current;
-      video.pause();
-      this._handleButtonClick();
-    }
+    const handlePauseClick = () => {
+      videoRef.current.pause();
+      handleButtonClick();
+    };
 
-    _getCurrentTime() {
-      const video = this.videoRef.current;
-      this._handleCurrentTimeChange(video.currentTime);
-    }
+    const getCurrentTime = () => {
+      handleCurrentTimeChange(videoRef.current.currentTime);
+    };
 
-    _getBufferFilm() {
-      const video = this.videoRef.current;
+
+    const getBufferFilm = () => {
+      const video = videoRef.current;
       for (let i = 0; i < video.buffered.length; i++) {
-        this._handleFilmBuffer(video.buffered.start(i) / video.duration, video.buffered.end(i) / video.duration);
+        handleFilmBuffer(video.buffered.start(i) / video.duration, video.buffered.end(i) / video.duration);
       }
-    }
+    };
 
-    _getCurrentTimeFilm() {
-      const video = this.videoRef.current;
-      video.addEventListener(`timeupdate`, this._getCurrentTime, false);
-      video.addEventListener(`progress`, this._getBufferFilm, false);
-      this._getFilmDuration();
-    }
-
-
-    _getFilmDuration() {
-      const video = this.videoRef.current;
-      this._handleFilmDuration(video.duration);
-    }
+    const getCurrentTimeFilm = () => {
+      const video = videoRef.current;
+      video.addEventListener(`timeupdate`, getCurrentTime, false);
+      video.addEventListener(`progress`, getBufferFilm, false);
+    };
 
 
-    _openFullScreen() {
-      const video = this.videoRef.current;
-      video.requestFullscreen();
-    }
+    const openFullScreen = () => videoRef.current.requestFullscreen();
 
 
-    render() {
-      return <Component
-        {...this.props}
-        handleButtonClick={this._handleButtonClick}
-        handleCurrentTimeChange={this._handleCurrentTimeChange}
-        handleFilmDuration={this._handleFilmDuration}
-        handleFilmBuffer={this._handleFilmBuffer}
-        isPlaying={this.state.isPlaying}
-        currentTimeFilm={this.state.currentTime}
-        durationFilm={this.state.durationFilm}
-        buffered={this.state.buffered}
-        handlePauseClick={this._handlePauseClick}
-        handlePlayClick={this._handlePlayClick}
-        openFullScreen={this._openFullScreen}
-      >
-        <video className="player__video" ref={this.videoRef}/>
-      </Component>;
-    }
-  }
+    return <Component
+      {...props}
+      handleButtonClick={handleButtonClick}
+      handleCurrentTimeChange={handleCurrentTimeChange}
+      handleFilmDuration={handleFilmDuration}
+      handleFilmBuffer={handleFilmBuffer}
+      isPlaying={isPlaying}
+      currentTimeFilm={currentTime}
+      durationFilm={durationFilm}
+      buffered={buffered}
+      handlePauseClick={handlePauseClick}
+      handlePlayClick={handlePlayClick}
+      openFullScreen={openFullScreen}
+    >
+      <video className="player__video" ref={videoRef}/>
+    </Component>;
+  };
+
 
   WithActivePlayer.propTypes = {
     film: PropTypes.object.isRequired,
