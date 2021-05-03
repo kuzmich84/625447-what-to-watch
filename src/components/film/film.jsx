@@ -16,6 +16,7 @@ import Header from "../header/header";
 import AddMyListContainer from "../add-my-list/add-my-list-container";
 import {AuthorisationStatus} from "../../const";
 import {ScrollToTop} from "../../myHooks/scrollToTop";
+import Footer from "../footer/footer";
 
 const Film = ({film, films, isActive, handlerTabOpen, isVideoPlayer, isLoading, filmId, postFilmFavorite, authorisationStatus}) => {
   const {backgroundImage, name, genre, released, posterImage, id, isFavorite} = film;
@@ -82,20 +83,7 @@ const Film = ({film, films, isActive, handlerTabOpen, isVideoPlayer, isLoading, 
             <h2 className="catalog__title">More like this</h2>
             <FilmsList films={likeGenreFilms}/>
           </section>
-
-          <footer className="page-footer">
-            <div className="logo">
-              <a href="main.html" className="logo__link logo__link--light">
-                <span className="logo__letter logo__letter--1">W</span>
-                <span className="logo__letter logo__letter--2">T</span>
-                <span className="logo__letter logo__letter--3">W</span>
-              </a>
-            </div>
-
-            <div className="copyright">
-              <p>© 2019 What to watch Ltd.</p>
-            </div>
-          </footer>
+          <Footer/>
         </div>
         {isVideoPlayer ? <MainVideoPlayer film={film}/> : ``}
         <ScrollToTop/>

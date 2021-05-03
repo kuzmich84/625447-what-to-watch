@@ -7,6 +7,7 @@ import ShowMore from "../show-more/show-more";
 import withActiveShowMore from "../../hocs/withActiveShowMore";
 import {getFilmListOfGenreReselect, getFilms, getGenre} from "../../store/selectors";
 import PromoFilm from "../promo-film/promo-film";
+import Footer from "../footer/footer";
 
 const Main = ({genre, films, filmsOfGenre, handlerClickButton, number}) => {
 
@@ -27,20 +28,7 @@ const Main = ({genre, films, filmsOfGenre, handlerClickButton, number}) => {
             {filmsOfGenre.length >= number ? <ShowMore handlerClickButton={handlerClickButton}/> : ``}
           </div>
         </section>
-
-        <footer className="page-footer">
-          <div className="logo">
-            <a className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer/>
       </div>
     </>
   );

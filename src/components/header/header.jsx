@@ -25,7 +25,7 @@ const Header = (props) => {
               <img src={avatar} alt="User avatar" width="63" height="63"/>
             </Link>
           </div>
-          : <Link to="/login" className="user-block__link">Sign in</Link>
+          : page !== HeaderOfPage.SIGN_IN && <Link to="/login" className="user-block__link">Sign in</Link>
         }
       </div>
     </header>
