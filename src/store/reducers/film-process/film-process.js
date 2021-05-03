@@ -2,14 +2,14 @@ import {extend} from "../../../utils";
 import {ActionType} from "../../action";
 
 const initialState = {
-  isVideoPlayer: false,
+  isPromo: false,
 };
 
 export const player = (state = initialState, action) => {
   switch (action.type) {
-    case ActionType.SHOW_VIDEO_PAGE:
+    case ActionType.SET_IS_PROMO:
       return extend(state, {
-        isVideoPlayer: action.payload,
+        isPromo: action.payload,
       });
 
     default:

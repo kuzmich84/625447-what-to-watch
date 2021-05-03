@@ -1,19 +1,18 @@
 import React from "react";
 import Header from "../header/header";
-import {getAuthorisationStatus, getPromoFilm} from "../../store/selectors"
+import {getAuthorisationStatus, getPromoFilm} from "../../store/selectors";
 import {connect} from "react-redux";
-import {showVideoPage} from "../../store/action";
+import {setIsPromo} from "../../store/action";
 import PropTypes from "prop-types";
 import AddMyListContainer from "../add-my-list/add-my-list-container";
 import {postFavorite} from "../../store/api-actions";
-import {AuthorisationStatus} from "../../const"
+import {AuthorisationStatus} from "../../const";
+import {useHistory} from "react-router-dom";
 
-const PromoFilm = ({promo, showVideoPageAction, postFilmFavorite, authorizationStatus}) => {
+
+const PromoFilm = ({promo, postFilmFavorite, authorizationStatus, setIsPromoAction}) => {
   const {name, genre, released, backgroundImage, posterImage, isFavorite, id} = promo;
-
-  function handlerShowVideoPage() {
-    showVideoPageAction(true);
-  }
+  const history = useHistory();
 
   return (
     <section className="movie-card">
@@ -40,13 +39,16 @@ const PromoFilm = ({promo, showVideoPageAction, postFilmFavorite, authorizationS
             </p>
 
             <div className="movie-card__buttons">
-              <button className="btn btn--play movie-card__button" type="button" onClick={handlerShowVideoPage}>
+              <button className="btn btn--play movie-card__button" type="button" onClick={() => {
+                history.push(`/player/${id}`);
+                setIsPromoAction(true);
+              }}>
                 <svg viewBox="0 0 19 19" width="19" height="19">
                   <use xlinkHref="#play-s"/>
                 </svg>
                 <span>Play</span>
               </button>
-              {authorizationStatus === AuthorisationStatus.AUTH && <AddMyListContainer filmId={id} isFavorite={isFavorite} postFilmFavorite={postFilmFavorite}/> }
+              {authorizationStatus === AuthorisationStatus.AUTH && <AddMyListContainer filmId={id} isFavorite={isFavorite} postFilmFavorite={postFilmFavorite}/>}
             </div>
           </div>
         </div>
@@ -61,11 +63,11 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  showVideoPageAction(value) {
-    dispatch(showVideoPage(value));
-  },
   postFilmFavorite(filmId, status) {
     dispatch(postFavorite(filmId, status));
+  },
+  setIsPromoAction(value) {
+    dispatch(setIsPromo(value));
   }
 });
 export {PromoFilm};
@@ -73,7 +75,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(PromoFilm);
 
 PromoFilm.propTypes = {
   promo: PropTypes.object.isRequired,
-  showVideoPageAction: PropTypes.func.isRequired,
   postFilmFavorite: PropTypes.func.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
+  setIsPromoAction: PropTypes.func.isRequired,
 };

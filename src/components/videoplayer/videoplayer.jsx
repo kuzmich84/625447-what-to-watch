@@ -51,16 +51,17 @@ class VideoPlayer extends PureComponent {
         onMouseOver={() => handlerMouseOverCard(film, i)}
         onMouseOut={() => handlerMouseOutCard()}
       >
-        <div className="small-movie-card__image">
-          <video ref={this.videoRef} width="280" height="175" muted poster={previewImage}>
-            <source src={videoLink} type='video/mp4'/>
-          </video>
-        </div>
+        <Link to={`/films/${id}`}>
+          <div className="small-movie-card__image" onClick={()=>loadFilmServer(id)}>
+            <video ref={this.videoRef} width="280" height="175" muted poster={previewImage} >
+              <source src={videoLink} type='video/mp4' />
+            </video>
+          </div>
+        </Link>
         <h3 className="small-movie-card__title" onClick={()=>loadFilmServer(id)}>
           <Link className="small-movie-card__link" to={`/films/${id}`}>{name} </Link>
         </h3>
       </article>
-
     );
   }
 }

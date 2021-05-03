@@ -1,6 +1,6 @@
 export const ActionType = {
   CHANGE_GENRE: ` CHANGE_GENRE`,
-  SHOW_VIDEO_PAGE: `SHOW_VIDEO_PAGE`,
+  SET_IS_PROMO: `SHOW_VIDEO_PAGE`,
   REQUIRED_AUTHORIZATION: `REQUIRED_AUTHORIZATION`,
   LOAD_FILM_LIST: `LOAD_FILM_LIST`,
   REDIRECT_TO_ROUTE: `REDIRECT_TO_ROUTE`,
@@ -26,8 +26,8 @@ export const changeGenre = (genre) => ({
   payload: genre,
 });
 
-export const showVideoPage = (value) => ({
-  type: ActionType.SHOW_VIDEO_PAGE,
+export const setIsPromo = (value) => ({
+  type: ActionType.SET_IS_PROMO,
   payload: value,
 });
 

@@ -5,11 +5,10 @@ import GenreList from "../genre-list/genre-list";
 import {connect} from "react-redux";
 import ShowMore from "../show-more/show-more";
 import withActiveShowMore from "../../hocs/withActiveShowMore";
-import MainVideoPlayer from "../main-videoplayer/main-videoplayer";
-import {getFilmListOfGenreReselect, getFilms, getGenre, getIsVideoPlayer} from "../../store/selectors";
+import {getFilmListOfGenreReselect, getFilms, getGenre} from "../../store/selectors";
 import PromoFilm from "../promo-film/promo-film";
 
-const Main = ({genre, films, filmsOfGenre, handlerClickButton, number, isVideoPlayer}) => {
+const Main = ({genre, films, filmsOfGenre, handlerClickButton, number}) => {
 
   function getFilmsPart(array, value) {
     return array.slice(0, value);
@@ -43,7 +42,6 @@ const Main = ({genre, films, filmsOfGenre, handlerClickButton, number, isVideoPl
           </div>
         </footer>
       </div>
-      {isVideoPlayer ? <MainVideoPlayer film={films[0]}/> : ``}
     </>
   );
 
@@ -54,7 +52,6 @@ const mapStateToProps = (state) => ({
   filmsOfGenre: getFilmListOfGenreReselect(state),
   films: getFilms(state),
   genre: getGenre(state),
-  isVideoPlayer: getIsVideoPlayer(state),
 });
 
 
@@ -68,5 +65,4 @@ Main.propTypes = {
   films: PropTypes.arrayOf(PropTypes.object),
   handlerClickButton: PropTypes.func.isRequired,
   number: PropTypes.number.isRequired,
-  isVideoPlayer: PropTypes.bool.isRequired,
 };

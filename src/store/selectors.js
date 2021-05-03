@@ -3,7 +3,6 @@ import {createSelector} from 'reselect';
 
 export const getFilms = ({DATA}) => DATA.films;
 export const getGenre = ({DATA}) => DATA.genre;
-export const getIsVideoPlayer = ({PLAYER}) => PLAYER.isVideoPlayer;
 export const getAuthorisationStatus = ({USER}) => USER.authorisationStatus;
 export const getAvatar = ({USER}) => USER.avatar;
 export const getPromoFilm = ({PROMO}) => PROMO.promo;
@@ -14,6 +13,7 @@ export const getIsLoadingReviews = ({REVIEWS}) => REVIEWS.isLoadingReview;
 export const getIsSendReview = ({REVIEWS}) => REVIEWS.isSendReview;
 export const getErrorSendReview = ({REVIEWS}) => REVIEWS.error;
 export const getFilmListOfFavorite = ({FAVORITE}) => FAVORITE.favoriteFilms;
+export const getIsPromo = ({PLAYER}) => PLAYER.isPromo;
 
 
 export const getFilmListOfGenreReselect = createSelector([getFilms, getGenre], (films, value) => {

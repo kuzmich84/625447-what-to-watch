@@ -1,23 +1,33 @@
 import React from "react";
-import {connect} from "react-redux";
-import {showVideoPage} from "../../store/action";
 import PropTypes from "prop-types";
 import withActivePlayer from "../../hocs/withActivePlayer";
 import {secToTime} from "../../utils";
-import {getIsVideoPlayer} from "../../store/selectors";
+import {useHistory} from "react-router-dom";
+import {ApiRoute} from "../../enum";
+import {connect} from "react-redux";
+import {getIsPromo} from "../../store/selectors";
+import {setIsPromo} from "../../store/action";
 
 
 const MainVideoPlayer = ({
-  showVideoPageAction, film, isVideoPlayer, isPlaying, currentTimeFilm, durationFilm, buffered, children,
-  handlePauseClick, handlePlayClick, openFullScreen,
+  film, isPlaying, currentTimeFilm, durationFilm, buffered, children,
+  handlePauseClick, handlePlayClick, openFullScreen, isPromo, setIsPromoAction
 
 }) => {
-  const {name} = film;
+  const {name, id} = film;
+
+  const history = useHistory();
 
   function handleHidePlayer() {
     handlePauseClick();
-    showVideoPageAction(!isVideoPlayer);
+    if (isPromo) {
+      setIsPromoAction(false);
+      history.push(ApiRoute.ROOT);
+    } else {
+      history.push(`/films/${id}`);
+    }
   }
+
   return (
     <div className="player">
       {children}
@@ -63,21 +73,21 @@ const MainVideoPlayer = ({
 };
 
 const mapStateToProps = (state) => ({
-  isVideoPlayer: getIsVideoPlayer(state),
+  isPromo: getIsPromo(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  showVideoPageAction(value) {
-    dispatch(showVideoPage(value));
+  setIsPromoAction(value) {
+    dispatch(setIsPromo(value));
   }
 });
 
+
+export {MainVideoPlayer};
 export default connect(mapStateToProps, mapDispatchToProps)(withActivePlayer(MainVideoPlayer));
 
 MainVideoPlayer.propTypes = {
-  showVideoPageAction: PropTypes.func.isRequired,
   film: PropTypes.object.isRequired,
-  isVideoPlayer: PropTypes.bool.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   currentTimeFilm: PropTypes.number.isRequired,
   durationFilm: PropTypes.number.isRequired,

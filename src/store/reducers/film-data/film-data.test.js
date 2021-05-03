@@ -2,6 +2,7 @@ import {createAPI} from "../../../sevices/api";
 import MockAdapter from "axios-mock-adapter";
 import {fetchFilmList} from "../../api-actions";
 import {ActionType} from "../../action";
+import {HttpCode} from "../../../enum";
 
 const api = createAPI(() => {});
 
@@ -13,7 +14,7 @@ describe(`Async operation work correctly`, () => {
 
     apiMock
       .onGet(`/films`)
-      .reply(200, [{fake: true}]);
+      .reply(HttpCode.SUCCESS, [{fake: true}]);
 
     return filmListLoader(dispatch, () => {
     }, api)

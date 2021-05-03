@@ -5,12 +5,12 @@ import {Router as BrowserRouter, Switch, Route} from 'react-router-dom';
 import Film from "../film/film";
 import SignIn from "../sign-in/sign-in";
 import MyList from "../my-list/my-list";
-import Player from "../player/player";
 import AddReview from "../add-review/add-review";
 import {connect} from "react-redux";
-import {getFilms, getIsVideoPlayer} from "../../store/selectors";
+import {getFilms} from "../../store/selectors";
 import PrivateRoute from "../private-root/private-root";
 import browserHistory from "../../browser-history";
+import MainVideoPlayer from "../main-videoplayer/main-videoplayer";
 
 
 const App = ({films}) => {
@@ -19,7 +19,7 @@ const App = ({films}) => {
       <Switch>
         <Route exact path="/" render={() => {
           return (
-            <Main />
+            <Main/>
           );
         }}
         />
@@ -37,9 +37,10 @@ const App = ({films}) => {
             <Film films={films} filmId={id}/>
           );
         }}/>
-        <Route exact path="/player/:id" render={() => {
+        <Route exact path="/player/:id" render={({match}) => {
+          const {id} = match.params;
           return (
-            <Player/>
+            <MainVideoPlayer film={films[id - 1]}/>
           );
         }}/>
         <PrivateRoute
@@ -64,7 +65,6 @@ const App = ({films}) => {
 
 const mapStateToProps = (state) => ({
   films: getFilms(state),
-  isVideoPlayer: getIsVideoPlayer(state),
 });
 
 export {App};

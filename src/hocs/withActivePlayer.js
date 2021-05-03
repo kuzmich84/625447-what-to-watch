@@ -1,6 +1,7 @@
 import React, {useEffect, useReducer, useRef, useState} from "react";
 import PropTypes from "prop-types";
 import {extend} from "../utils";
+import {login} from "../store/api-actions";
 
 const initialState = {
   currentTime: 0,
@@ -62,12 +63,10 @@ const withActivePlayer = (Component) => {
       };
 
 
-      return () => {
-        const video = videoRef.current;
-        video.current.pause();
-        video.oncanplaythrough = null;
-        video.removeEventListener(`timeupdate`, getCurrentTime, false);
-        video.removeEventListener(`progress`, getBufferFilm, false);
+      return function cleanUpListener() {
+        videoRef.current.oncanplaythrough = null;
+        videoRef.current.removeEventListener(`timeupdate`, getCurrentTime);
+        videoRef.current.removeEventListener(`progress`, getBufferFilm);
       };
     }, [videoRef]);
 

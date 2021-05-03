@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {Link} from "react-router-dom";
+import {useHistory, Link} from "react-router-dom";
 import Tabs from "../tabs/tabs";
 import Overview from "../tabs/overview/overview";
 import Details from "../tabs/details/details";
@@ -10,16 +10,17 @@ import withActiveTab from "../../hocs/withActiveTab";
 import MainVideoPlayer from "../main-videoplayer/main-videoplayer";
 import {showVideoPage} from "../../store/action";
 import {connect} from "react-redux";
-import {getAuthorisationStatus, getFilm, getIsLoading, getIsVideoPlayer} from "../../store/selectors";
+import {getAuthorisationStatus, getFilm, getIsLoading} from "../../store/selectors";
 import {postFavorite} from "../../store/api-actions";
 import Header from "../header/header";
 import AddMyListContainer from "../add-my-list/add-my-list-container";
 import {AuthorisationStatus} from "../../const";
 import {ScrollToTop} from "../../myHooks/scrollToTop";
 
-const Film = ({film, films, isActive, handlerTabOpen, isVideoPlayer, showVideoPageAction, isLoading, filmId, postFilmFavorite, authorisationStatus}) => {
+const Film = ({film, films, isActive, handlerTabOpen, isVideoPlayer, isLoading, filmId, postFilmFavorite, authorisationStatus}) => {
   const {backgroundImage, name, genre, released, posterImage, id, isFavorite} = film;
   const likeGenreFilms = films.filter((itemFilm) => itemFilm.genre === genre && itemFilm.id !== id).slice(0, 3);
+  const history = useHistory();
 
   if (isLoading) {
     return <p>Loading....</p>;
@@ -45,7 +46,7 @@ const Film = ({film, films, isActive, handlerTabOpen, isVideoPlayer, showVideoPa
                 </p>
 
                 <div className="movie-card__buttons">
-                  <button className="btn btn--play movie-card__button" type="button" onClick={() => showVideoPageAction(!isVideoPlayer)}>
+                  <button className="btn btn--play movie-card__button" type="button" onClick={()=>history.push(`/player/${id}`)}>
                     <svg viewBox="0 0 19 19" width="19" height="19">
                       <use xlinkHref="#play-s"/>
                     </svg>
@@ -107,16 +108,12 @@ const Film = ({film, films, isActive, handlerTabOpen, isVideoPlayer, showVideoPa
 
 
 const mapStateToProps = (state) => ({
-  isVideoPlayer: getIsVideoPlayer(state),
   film: getFilm(state),
   isLoading: getIsLoading(state),
   authorisationStatus: getAuthorisationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  showVideoPageAction(value) {
-    dispatch(showVideoPage(value));
-  },
   postFilmFavorite(filmId, status) {
     dispatch(postFavorite(filmId, status));
   }
@@ -131,7 +128,5 @@ Film.propTypes = {
   films: PropTypes.arrayOf(PropTypes.object.isRequired),
   isActive: PropTypes.number.isRequired,
   handlerTabOpen: PropTypes.func.isRequired,
-  isVideoPlayer: PropTypes.bool.isRequired,
-  showVideoPageAction: PropTypes.func.isRequired,
   authorisationStatus: PropTypes.string.isRequired,
 };
